@@ -16,7 +16,7 @@ let mRouter = new Router({
             children: [
                 { path: '/product/sms/template/list', name: 'product_sms_template_list', component: product_sms_template_list },
                 { path: '/product/sms/template/add', name: 'product_sms_template_add', component: product_sms_template_edit },
-                { path: '/product/sms/template/edit:id', name: 'product_sms_template_edit', component: product_sms_template_edit }
+                { path: '/product/sms/template/edit/:id', name: 'product_sms_template_edit', component: product_sms_template_edit }
             ]
         },
         { path: '/error*', name: 'error', component: error },

@@ -11,108 +11,47 @@
                             <li>
                                 <label class="name">模板名称</label>
                                 <div class="input-warp">
-                                    <input class="text" type="text">
+                                    <p class="text" v-if="edit">{{name}}</p>
+                                    <input v-else class="text" v-model="name" type="text">
                                 </div>
                             </li>
                             <li>
                                 <label class="name">客户名称</label>
-                                <div class="input-warp">
-                                    <div class="select-warp ">
-                                        <!-- 在div上加上class（select-open）显示出ul列表 -->
-                                        <p class="all">
-                                            <span>请选择</span>
-                                        </p>
-                                        <div class="select-ul">
-                                            <div class="scroll-warp scrollBar">
-                                                <ul>
-                                                    <li>名称1</li>
-                                                    <li>名称2</li>
-                                                    <li>名称3</li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
+                                <div class="input-warp" v-if="edit">
+                                    <p class="text">{{customer}}</p>
                                 </div>
-                            </li>
-                            <li>
-                                <label class="name">项目名称</label>
-                                <div class="input-warp">
-                                    <div class="select-warp ">
-                                        <!-- 在div上加上class（select-open）显示出ul列表 -->
-                                        <p class="all">
-                                            <span>请选择</span>
-                                        </p>
-                                        <div class="select-ul">
-                                            <div class="scroll-warp scrollBar">
-                                                <ul>
-                                                    <li>名称1</li>
-                                                    <li>名称2</li>
-                                                    <li>名称3</li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                <mselect v-else ref="customerSelect" :api="customerApi" :hideAll="true"></mselect>
                             </li>
                             <li>
                                 <label class="name">短信文本</label>
                                 <div class="input-warp">
-                                    <textarea></textarea>
-                                    <p class="tips">最多录入70个字符，已经输入0个字符</p>
-
+                                    <textarea v-model="content" maxlength="70"></textarea>
+                                    <p class="tips block">最多录入70个字符，已经输入{{contentLength}}个字符</p>
+                                    <p v-if="error_content" class="tips block error">{{error_content}}</p>
                                 </div>
                             </li>
                             <li>
                                 <label class="name">短信链接</label>
                                 <div class="input-warp">
-                                    <input class="text" type="text">
-                                    <p class="tips">如有短信链接，务必在短信文本中对应位置加入链接占位符#url#</p>
-                                    <!--<p class="tips error">请输入正确的链接</p>-->
+                                    <input class="text" v-model="url" type="text">
+                                    <p class="tips block">如有短信链接，务必在短信文本中对应位置加入链接占位符#url#</p>
+                                    <p v-if="error_url" class="tips block error">{{error_url}}</p>
                                 </div>
                             </li>
                             <li>
                                 <label class="name">发送渠道</label>
-                                <div class="input-warp">
-                                    <div class="select-warp ">
-                                        <!-- 在div上加上class（select-open）显示出ul列表 -->
-                                        <p class="all">
-                                            <span>请选择</span>
-                                        </p>
-                                        <div class="select-ul">
-                                            <div class="scroll-warp scrollBar">
-                                                <ul>
-                                                    <li>渠道1</li>
-                                                    <li>渠道2</li>
-                                                    <li>渠道3</li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                <mselect ref="tunnelSelect" :api="tunnelApi" :id="tunnelId" :hideAll="true" @change="getSign"></mselect>
                             </li>
                             <li>
                                 <label class="name">短信签名</label>
-                                <div class="input-warp">
-                                    <div class="select-warp ">
-                                        <!-- 在div上加上class（select-open）显示出ul列表 -->
-                                        <p class="all">
-                                            <span>请选择</span>
-                                        </p>
-                                        <div class="select-ul">
-                                            <div class="scroll-warp scrollBar">
-                                                <ul>
-                                                    <li>签名1</li>
-                                                    <li>签名2</li>
-                                                    <li>签名3</li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
+                                <div class="input-warp" v-if="edit">
+                                    <p class="text">{{sign}}</p>
                                 </div>
+                                <mselect v-else ref="signSelect" :api="signApi" :param="signParam" :id="signId" :hideAll="true" @change="getSignText"></mselect>
                             </li>
                             <li class="li-btn">
                                 <div class="input-warp">
-                                    <button class="btn confirm" type="button" onclick="getWindow('newSucc','tips-succ');">提交</button>
+                                    <button class="btn confirm" type="button" @click="submit">提交</button>
                                 </div>
                             </li>
                         </ul>
@@ -120,9 +59,8 @@
                             <div class="inrr">
                                 <i class="bg-up"></i>
                                 <i class="bg-down"></i>
-                                <p>【集奥聚合】</p>
-                                <p>XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-                                    <a href="">http://www.GEOtmt.com/ </a> 退订TD</p>
+                                <p v-show="sign">【{{sign}}】</p>
+                                <p v-show="content_view" v-html="content_view"></p>
                             </div>
                         </div>
                     </div>
@@ -131,3 +69,80 @@
         </div>
     </div>
 </template>
+<script>
+    import mselect from 'components/utils/select'
+    import API from 'src/services/api'
+    export default {
+        data() {
+            return {
+                name: '',
+                customerApi: API.customer_select_list,
+                customer: '',
+                content: '',
+                error_content: '',
+                url: '',
+                error_url: '',
+                tunnelApi: API.tunnel_select_list,
+                tunnelId: '',
+                signApi: API.sign_select_list,
+                signParam: {},
+                signId: '',
+                sign: ''
+            }
+        },
+        computed: {
+            contentLength() {
+                return this.content.replace(/#url#/, '12345678901234').length
+            },
+            content_view() {
+                return this.content.replace(/#url#/, '<a href="' + this.url + '"> t.cn/RK73y </a>')
+            },
+            edit() {
+                return !!this.$route.params
+            }
+        },
+        created() {
+            if (this.$route.params.id) {
+                this.$ajax({
+                    url: API.sms_template_detail,
+                    data: {
+                        id: this.$route.params.id
+                    },
+                    success: data => {
+                        if (data.code == 200) {
+                            this.name = data.data.name
+                            this.customer = data.data.client_name
+                            this.content = data.data.content
+                            this.url = data.data.url
+                            this.sign = data.data.sign
+                        } else {
+                            this.$toast(data.message)
+                        }
+                    }
+                })
+            }
+        },
+        methods: {
+            getSign(result) {
+                if (this.edit) return false
+                this.signParam = {
+                    channel_key: result.id
+                }
+                let _this = this
+                this.$nextTick(() => {
+                    this.$refs.signSelect.init()
+                })
+            },
+            getSignText(result) {
+                this.sign = result.name
+            },
+            submit() {
+
+            }
+        },
+        components: {
+            mselect
+        }
+    }
+
+</script>

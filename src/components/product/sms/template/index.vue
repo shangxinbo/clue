@@ -43,7 +43,7 @@
                             <span :title="props.item.preview_content">{{props.item.preview_content}}</span>
                         </td>
                         <td width="10%" label="操作">
-                            <a href="产品管理-短信营销-模板管理-编辑模板.html">编辑</a>
+                            <router-link :to="`/product/sms/template/edit/${props.item.id}`">编辑</router-link>
                             <a href="javascript:void(0);" @click="del(props.item.id,props.item.name)">删除</a>
                         </td>
                     </template>
@@ -109,17 +109,17 @@
                     query: query
                 })
             },
-            del(id,name){
-                this.$confirm(`确定要删除此${name}`,()=>{
+            del(id, name) {
+                this.$confirm(`确定要删除此${name}`, () => {
                     this.$ajax({
-                        url:API.sms_template_del,
-                        data:{
-                            id:id
+                        url: API.sms_template_del,
+                        data: {
+                            id: id
                         },
-                        success:data =>{
-                            if(data.code==200){
+                        success: data => {
+                            if (data.code == 200) {
                                 this.init()
-                            }else{
+                            } else {
                                 this.$toast(data.message)
                             }
                         }

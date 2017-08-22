@@ -90,6 +90,7 @@
                         }
                     }
                 }
+                this.$emit('change', this.selected)
             },
             init(callback) {
                 if (this.initlist) {
@@ -100,9 +101,7 @@
                     if (callback) callback()
 
                 } else if (this.api) {
-
                     let obj = this.param ? this.param : {}
-
                     this.$ajax({
                         url: this.api,
                         data: obj,
