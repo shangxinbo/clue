@@ -1,0 +1,243 @@
+@import (reference) "base.less";
+.check-warp .icon,.btn .icon,.radio-warp .icon,.push-close,.upload-warp .succ{
+  .flo();
+  background: url('@{url}/dialog-icon.png') no-repeat 0 0;
+}
+input,textarea {
+  width: 100%;
+  background-color: #f8fafc;
+  border: 1px solid #d2dff4;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  font: 14px/18px "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei";
+}
+input{
+  &.text {
+    height: 38px;
+    line-height: 36px\9;
+    padding: 0 15px;
+    min-width: 200px;
+  }
+  &.date{
+    min-width: 150px;
+    color: @grayColor;
+  }
+  &.radio{
+    .wh(20px);
+    vertical-align: top;
+  }
+  &.disabled,&:disabled{
+    background-color: @lineColor1;
+  }
+}
+textarea{
+  height: 118px;
+  padding: 8px 20px;
+  line-height: 26px;
+}
+.calendar-warp {
+  position: relative;
+  .name{
+    display: inline-block;
+    font-size: 16px;
+    line-height: 38px;
+    float: left;
+    color: @grayColor;
+    padding-right: 10px;
+  }
+  &:before {
+    display: block;
+    content: '';
+    width: 25px;
+    height: 23px;
+    position: absolute;
+    right: 10px;
+    top: 8px;
+    z-index: 1;
+    background: url('@{url}/dialog-icon.png') no-repeat 0 0;
+    background-position: -54px 0;
+  }
+  input {
+    width: 215px;
+    position: relative;
+    cursor: pointer;
+    background: none;
+    z-index: 2;
+    &.text {
+      float: left;
+    }
+  }
+}
+.date-warp{
+  .calendar-warp{
+    &:before {
+      .wh(19px);
+      background-position: -80px 0;
+      top: 5px;
+    }
+    background-color: #f8fafc;
+    float: left;
+  }
+  .or{
+    float: left;
+    display: inline-block;
+    width: 30px;
+    font-size: 14px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    color: @grayColor;
+  }
+  input{
+    width: 150px;
+  }
+}
+.radio-warp{
+  cursor: pointer;
+  .radio{
+    display: none;
+  }
+  &>.icon{
+    .wh(20px);
+    display: inline-block;
+    background-position: -76px -51px;
+    margin-right: 10px;
+    position: relative;
+    top: 9px;
+    float: left;
+  }
+  &.radio-active{
+    &>.icon{
+      background-position: -55px -51px;
+    }
+  }
+}
+.check-warp{
+  position: relative;
+  li{
+    float: left;
+    height: 43px;
+    overflow: hidden;
+    padding-right: 20px;
+    cursor: pointer;
+    p {
+      display: inline-block;
+      height: 38px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    span {
+      display: inline-block;
+      font-size: 14px;
+      line-height: 38px;
+      overflow: hidden;
+      text-overflow:ellipsis;
+      white-space:nowrap;
+    }
+    .icon {
+      .wh(17px);
+      float: left;
+      margin-top: 10px;
+      margin-right: 5px;
+      background-position: 0 -55px;
+    }
+    &.active{
+      .icon{
+        background-position: -19px -55px;
+      }
+    }
+  }
+}
+.btn{
+  display: inline-block;
+  background-color: #FFF;
+  border: 1px solid @blueText;
+  border-radius: 5px;
+  color: @blueText;
+  font-size: 16px;
+  line-height: 36px;
+  position: relative;
+  padding: 0 10px;
+  font-family: @YaHei;
+  cursor: pointer;
+  min-width: 80px;
+  margin: 0 auto;
+  &:hover{
+  }
+  &.disabled{
+    background-color: #EDECF5;
+    border-color: #EDECF5;
+    color: #8b8da6;
+  }
+  &.set,&.confirm{
+    min-width: 90px;
+    line-height: 38px;
+    background-color: @brownColor;
+    color: @whiteColor;
+    border: 0;
+    border-color: @brownColor;
+    &:hover{
+      background-color: lighten(@brownColor,3%); //亮度增加 3%
+    }
+  }
+  &.confirm{
+    min-width: 120px;
+  }
+  &.cancel{
+    border: 0;
+    line-height: 38px;
+    background-color: @btnCancel;
+    color: @whiteColor;
+    border-color: @btnCancel;
+    &:hover{
+      background-color: lighten(@btnCancel,3%); //亮度增加 3%
+    }
+  }
+  span{
+    padding-left: 20px;
+  }
+  i{
+    position: absolute;
+    display: inline-block;
+    top: 50%;
+    left:12px;
+    &.search{
+      .wh(14px);
+      background-position: -71px -35px;
+      margin-top: -7px;
+    }
+    &.download{
+      width: 16px;
+      height: 15px;
+      background-position: -86px -35px;
+      margin-top: -8px;
+    }
+    &.upload{
+      .wh(16px);
+      background-position: -103px -35px;
+      margin-top: -8px;
+    }
+    &.afresh{
+      .wh(16px);
+      background-position: -103px -19px;
+      margin-top: -8px;
+    }
+  }
+}
+.add-model{
+  .add{
+    text-align: center;
+    line-height: 29px;
+    i{
+      .wh(15px);
+      background-position: -54px -35px;
+      margin-top: -8px;
+      left: 0;
+    }
+    span{
+      position: relative;
+      display: inline-block;
+    }
+  }
+}

@@ -1,0 +1,53 @@
+@import (reference) "base.less";
+//---------------------------------------------- 手机短信 ------------------------------------------------------
+.sms-phone {
+  width: 177px;
+  height: 302px;
+  margin-right: -200px;
+  padding: 44px 18px 50px 25px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  background: url('@{url}/sms-phone.png') no-repeat 0 0;
+  font-size: 14px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  .inrr{
+    position: relative;
+    width: 134px;
+    background-color: #f6f8fa;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 10px 10px 12px;
+    i{
+      background: url('@{url}/sms-popup.png') no-repeat 0 0;
+      width: 100%;
+      display: block;
+      position: absolute;
+      left: 0;
+      &.bg-up{
+        height: 10px;
+        top: 0;
+        background-position: -9px 0;
+      }
+      &.bg-down{
+        width: 142px;
+        height: 12px;
+        bottom: 0;
+        left: -9px;
+        background-position: 0 bottom;
+      }
+    }
+  }
+  p{
+    word-break:break-all;
+    word-wrap:break-word;
+    a{
+      color: @blueColor;
+    }
+  }
+}
+
+//---------------------------------------------- 手机短信 End ------------------------------------------------

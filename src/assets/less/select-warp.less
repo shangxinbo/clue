@@ -1,0 +1,63 @@
+@import (reference) "base.less";
+.select-warp {
+  position: relative;
+  p{
+    background-color: #f8fafc;
+    border: 1px solid #d2dff4;
+    height: 36px;
+    padding: 0 35px 0 15px;
+    font-size: 14px;
+    line-height: 36px;
+    cursor: pointer;
+    .user-select();
+    position: relative;
+    &:before{
+      display: block;
+      content: '';
+      width: 8px;
+      height: 4px;
+      .flo();
+      background: data-uri('@{url}/select-icon03.png') no-repeat 0 0;
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      margin-top: -2px;
+    }
+  }
+  .select-ul{
+    width: 100%;
+    display: none;
+    position: absolute;
+    left: 0;
+    top: 39px;
+    height: 150px;
+    z-index: 3;
+  }
+  ul{
+    padding: 10px 0;
+    background-color: #F2F1F9;
+  }
+  &.select-open{
+    p{
+      &:before{
+        .transform(rotate(180deg));
+      }
+    }
+    .select-ul{
+      display: block;
+    }
+  }
+  li{
+    padding: 6px 20px;
+    margin-top: 2px;
+    font-size: 14px;
+    color: @grayColor;
+    cursor: pointer;
+    &:first-child{
+      margin-top: 0;
+    }
+    &:hover{
+      background-color: lighten(#d5d9e5,3%);
+    }
+  }
+}
