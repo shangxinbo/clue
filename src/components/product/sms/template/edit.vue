@@ -13,6 +13,7 @@
                                 <div class="input-warp">
                                     <p class="text" v-if="edit">{{name}}</p>
                                     <input v-else class="text" v-model="name" type="text">
+                                    <p v-if="error_name" class="tips block error">{{error_name}}</p>
                                 </div>
                             </li>
                             <li>
@@ -75,7 +76,9 @@
     export default {
         data() {
             return {
+                id: '',
                 name: '',
+                error_name: '',
                 customerApi: API.customer_select_list,
                 customer: '',
                 content: '',
@@ -98,7 +101,7 @@
                 return this.content.replace(/#url#/, '<a href="' + this.url + '"> t.cn/RK73y </a>')
             },
             edit() {
-                return !!this.$route.params
+                return !!this.$route.params.id
             }
         },
         created() {
@@ -110,6 +113,7 @@
                     },
                     success: data => {
                         if (data.code == 200) {
+                            this.id = data.data.id
                             this.name = data.data.name
                             this.customer = data.data.client_name
                             this.content = data.data.content
@@ -137,7 +141,57 @@
                 this.sign = result.name
             },
             submit() {
+                let obj = {}
+                if (this.edit) {
+                    obj = {
+                        id: this.id
+                    }
+                } else {
+                    if (!this.name) {
+                        this.error_name = '请填写模板名称'
+                        return false
+                    }
+                    obj = {
+                        name: this.name,
+                        client_id: this.$refs.customerSelect.selected.id,
+                        sign: this.$refs.signSelect.selected.id
+                    }
+                }
 
+                if (!this.content) {
+                    this.error_content = '请填写短信内容'
+                    return false
+                } else {
+                    this.error_content = ''
+                }
+                if (this.url) {
+                    /* eslint-disable no-useless-escape */
+                    let reg = /(http|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?/
+                    if (!reg.test(this.url)) {
+                        this.error_url = '链接格式不正确'
+                        return false
+                    } else {
+                        this.error_url = ''
+                    }
+                } else {
+                    this.error_url = ''
+                }
+                obj.content = this.content
+                obj.url = this.url
+
+                this.$ajax({
+                    url: API.sms_template_save,
+                    data: obj,
+                    success: data => {
+                        if (data.code == 200) {
+                            this.$toast(`${this.edit ? '编辑' : '新建'}成功`, () => {
+                                this.$router.replace('/product/sms/template/list')
+                            })
+                        } else {
+                            this.$toast(data.message)
+                        }
+                    }
+                })
             }
         },
         components: {

@@ -1,7 +1,7 @@
 <template>
     <div class="dialog tips-succ" :style="{display:msg?'block':'none','margin-left':offsetLeft,'margin-top':offsetTop}">
         <div class="dialog-body">
-            <div class="pop-default">
+            <div class="pop-tips">
                 <p class="title">
                     <span>
                         <i class="icon succ"></i>{{msg}}
