@@ -1,6 +1,5 @@
 <template>
     <div>
-        <mheader></mheader>
         <mnav></mnav>
         <router-view></router-view>
         <mfooter></mfooter>
@@ -12,7 +11,6 @@
 </template>
 <script>
     import Vue from 'vue'
-    import mheader from 'components/common/header.vue'
     import mfooter from 'components/common/footer.vue'
     import mnav from 'components/common/nav.vue'
     import alert from 'components/utils/alert'
@@ -30,7 +28,6 @@
             }
         },
         components: {
-            mheader,
             mfooter,
             mnav,
             alert,

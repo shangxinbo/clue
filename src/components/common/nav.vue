@@ -34,7 +34,7 @@
                                 <a href="产品管理-短信营销-通道管理.html"><span>通道管理</span></a>
                             </li>
                             <li class="active">
-                                <a href="产品管理-短信营销-模板管理.html"><span>模板管理</span></a>
+                                <router-link to="/product/sms/template/list"><span>模板管理</span></router-link>
                             </li>
                             <li>
                                 <a href="产品管理-短信营销-客户管理.html"><span>客户管理</span></a>
