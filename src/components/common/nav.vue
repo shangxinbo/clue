@@ -31,7 +31,7 @@
                         <router-link to="/product/sms/index/"><span>短信营销</span></router-link>
                         <ul>
                             <li>
-                                <a href="产品管理-短信营销-通道管理.html"><span>通道管理</span></a>
+                                <router-link to="/product/sms/tunnel/"><span>通道管理</span></router-link>
                             </li>
                             <li class="active">
                                 <router-link to="/product/sms/template/list"><span>模板管理</span></router-link>
