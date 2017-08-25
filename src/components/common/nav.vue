@@ -45,10 +45,10 @@
                         </ul>
                     </li>
                     <li>
-                        <a href="产品管理-小金库.html"><span>小金库</span></a>
+                        <router-link to="/product/goldlib/index/"><span>小金库</span></router-link>
                         <ul>
                             <li>
-                                <a href="产品管理-小金库-客户管理.html"><span>客户管理</span></a>
+                                <router-link to="/product/goldlib/user/"><span>客户管理</span></router-link>
                             </li>
                         </ul>
                     </li>
