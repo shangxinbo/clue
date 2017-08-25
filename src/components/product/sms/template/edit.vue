@@ -40,7 +40,7 @@
                                 </div>
                             </li>
                             <li>
-                                <label class="name">发送渠道</label>
+                                <label class="name">发送通道</label>
                                 <mselect ref="tunnelSelect" :api="tunnelApi" :id="tunnelId" :hideAll="true" @change="getSign"></mselect>
                             </li>
                             <li>
