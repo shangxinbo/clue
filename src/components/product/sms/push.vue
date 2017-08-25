@@ -30,7 +30,8 @@
             </div>
             <div class="data-property task-box">
                 <form>
-                    <subTask ref="subTask" v-for="(item,key) in task" :key="item.index" :index="key" :templateList="templateList" @del="delSub(item.index)"></subTask>
+                    <subTasked ref="subTasked" v-for="(item,key) in subtasked" :key="item.index" :index="key" :data="item" :templateList="templateList"></subTasked>
+                    <subTask ref="subTask" v-for="(item,key) in task" :key="item.index" :index="subtasked.length + key" :templateList="templateList" @del="delSub(item.index)"></subTask>
                     <div class="task-push">
                         <div class="add-model">
                             <a href="javasript:void(0)" class="btn add" @click="addSubTask">
@@ -74,26 +75,28 @@
 </template>
 <script>
     import subTask from './subTask'
+    import subTasked from './subTasked'
     import mselect from 'components/utils/select'
     import API from 'src/services/api'
     export default {
         data() {
             let timeList = []
-            for (let i = 1; i < 25; i++) {
+            for (let i = 8; i < 19; i++) {
                 timeList.push({
                     id: i,
                     name: `${i}点`
                 })
             }
             return {
-                id:'',
+                id: '',
                 client: '',
                 project: '',
                 batch: '',
                 dataNum: '',
                 pushTime: '',
                 templateApi: API.sms_template_select,
-                task: [{ index: '0', template: '', tunnel: '', num: 0 }],
+                task: [],
+                subtasked:[],
                 taskNum: 0,
                 templateList: [],
                 timeList: timeList,
@@ -101,11 +104,9 @@
             }
         },
         created() {
-            this.client = this.$route.query.client
             this.project = this.$route.query.project
             this.batch = this.$route.query.batch
             this.dataNum = this.$route.query.dataNum
-            this.pushTime = this.$route.query.pushTime
             this.id = this.$route.query.id
 
             this.$ajax({
@@ -115,11 +116,28 @@
                     this.templateList = data.data
                 }
             })
+
+            this.$ajax({
+                url: API.tast_detail,
+                data: {
+                    id: this.id
+                },
+                success: data => {
+                    
+                    this.client = data.data.data_task.customer_name
+                    this.pushTime = data.data.data_task.send_date
+                    this.subtasked = data.data.sms_subTask
+                    if(!data.data.sms_subTask.length){
+                        this.task.push({ index: '0'})
+                    }
+                }
+            })
+
         },
         methods: {
             addSubTask() {
                 this.taskNum++
-                this.task.push({ index: this.taskNum, template: '', tunnel: '', num: 0 })
+                this.task.push({ index: this.taskNum })
             },
             delSub(index) {
                 this.task.forEach((item, key) => {
@@ -129,42 +147,57 @@
             },
             submit() {
                 let task = this.$refs.subTask
+                let tasked = this.$refs.subTasked
                 let arr = []
                 let canSubmit = true
-                task.forEach((item, index) => {
-                    if (parseInt(item.num)) {
+                tasked.forEach((item,index)=>{
+                    if(parseInt(item.num)){
                         arr.push({
-                            id:'',
-                            template_id: item.selected.id,
-                            flag: item.tunnel.id,
-                            channel:item.tunnel.name,
-                            num: parseInt(item.num)
+                            id:item.data.id,
+                            template_id:item.data.template_id,
+                            flag:item.data.flag,
+                            channel:item.data.channel,
+                            num:parseInt(item.num)
                         })
                     }else{
                         canSubmit = false
                     }
                 })
-                if(canSubmit){
+                task.forEach((item, index) => {
+                    if (parseInt(item.num)) {
+                        arr.push({
+                            id: '',
+                            template_id: item.selected.id,
+                            flag: item.tunnel.id,
+                            channel: item.tunnel.name,
+                            num: parseInt(item.num)
+                        })
+                    } else {
+                        canSubmit = false
+                    }
+                })
+                if (canSubmit) {
                     this.$ajax({
-                        url:API.task_save,
-                        data:{
-                            task_id:this.id,
-                            status:this.type?2:1,
+                        url: API.task_save,
+                        data: {
+                            task_id: this.id,
+                            status: this.type ? 2 : 1,
                             time: this.$refs.timeSelect.selected.id,
-                            sms_task_id:'',
-                            task:arr
+                            sms_task_id: '',
+                            task: arr
                         },
-                        success:data=>{
+                        success: data => {
                             console.log(123)
                         }
                     })
-                }else{
+                } else {
                     this.$alert('请注意，有任务的数据量占比不是整数')
                 }
             }
         },
         components: {
             subTask,
+            subTasked,
             mselect
         }
     }

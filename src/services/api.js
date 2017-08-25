@@ -9,5 +9,6 @@ export default {
     sms_template_detail: API_PRE + '/sms/template_find',
     sms_template_save: API_PRE + '/sms/template_save',
     sms_template_select:API_PRE + '/sms/template_select',
-    task_save:API_PRE + '/sms/task_save'
+    task_save:API_PRE + '/sms/task_save',
+    tast_detail: API_PRE + '/sms/task_info'
 }
