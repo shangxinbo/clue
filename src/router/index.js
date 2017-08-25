@@ -9,6 +9,7 @@ const product_sms_template_list = resolve => System.import('components/product/s
 const product_sms_template_edit = resolve => System.import('components/product/sms/template/edit')
 const product_sms_index = resolve => System.import('components/product/sms/index')
 const product_sms_push = resolve => System.import('components/product/sms/push')
+const product_tunnel = resolve => System.import('components/product/tunnel')
 
 let mRouter = new Router({
     routes: [
@@ -21,6 +22,7 @@ let mRouter = new Router({
                 { path: '/product/sms/template/edit/:id', name: 'product_sms_template_edit', component: product_sms_template_edit },
                 { path: '/product/sms/index/', name: 'product_sms_index', component: product_sms_index },
                 { path: '/product/sms/push/', name: 'product_sms_push', component: product_sms_push },
+                { path: '/product/tunnel/', name: 'product_tunnel', component: product_tunnel },
             ]
         },
         { path: '/error*', name: 'error', component: error },

@@ -10,5 +10,6 @@ export default {
     sms_template_save: API_PRE + '/sms/template_save',
     sms_template_select:API_PRE + '/sms/template_select',
     task_save:API_PRE + '/sms/task_save',
-    tast_detail: API_PRE + '/sms/task_info'
+    tast_detail: API_PRE + '/sms/task_info',
+    sms_tunnel_list:API_PRE + '/sms/channel_list'
 }
