@@ -21,7 +21,7 @@
                         </li>
                         <li class="li-download">
                             <div class="add-model">
-                                <a href="javascript:void(0);" class="btn add">
+                                <a href="javascript:void(0);" class="btn add" @click="showAdd">
                                     <span>
                                         <i class="icon"></i>创建客户</span>
                                 </a>
@@ -45,11 +45,13 @@
                 <pages :total="totalPage" :current="currentPage" @jump='search'></pages>
             </div>
         </div>
+        <addDialog ref="addDialog"></addDialog>
     </div>
 </template>
 <script>
     import pages from 'components/common/pages'
     import mtable from 'components/utils/table'
+    import addDialog from './add'
     import API from 'src/services/api'
     export default {
         data() {
@@ -102,11 +104,15 @@
                     name: this.$route.name,
                     query: query
                 })
+            },
+            showAdd(){
+                this.$refs.addDialog.$emit('show')
             }
         },
         components: {
             pages,
-            mtable
+            mtable,
+            addDialog
         }
     }
 

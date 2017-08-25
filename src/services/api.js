@@ -12,5 +12,6 @@ export default {
     task_save: API_PRE + '/sms/task_save',
     tast_detail: API_PRE + '/sms/task_info',
     sms_tunnel_list: API_PRE + '/sms/channel_list',
-    goldlib_user: API_PRE + '/smallvault/costomerlist'
+    goldlib_user: API_PRE + '/smallvault/costomerlist',
+    goldlib_user_add: API_PRE + '/smallvault/createcostomer'
 }
