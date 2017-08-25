@@ -8,5 +8,6 @@ export default {
     sign_select_list:API_PRE + '/sms/get_sign_list',
     sms_template_detail: API_PRE + '/sms/template_find',
     sms_template_save: API_PRE + '/sms/template_save',
-    sms_template_select:API_PRE + '/sms/template_select'
+    sms_template_select:API_PRE + '/sms/template_select',
+    task_save:API_PRE + '/sms/task_save'
 }

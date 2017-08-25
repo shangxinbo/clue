@@ -30,7 +30,7 @@
             </div>
             <div class="data-property task-box">
                 <form>
-                    <subTask v-for="(item,key) in task" :key="item.index" :index="key" :templateList="templateList" @del="delSub(item.index)"></subTask>
+                    <subTask ref="subTask" v-for="(item,key) in task" :key="item.index" :index="key" :templateList="templateList" @del="delSub(item.index)"></subTask>
                     <div class="task-push">
                         <div class="add-model">
                             <a href="javasript:void(0)" class="btn add" @click="addSubTask">
@@ -55,7 +55,7 @@
                                         <span class="radioname">定时发送</span>
                                         <div class="date-warp">
                                             <span class="date">{{pushTime}}</span>
-                                            <mselect :initlist="timeList" :hideAll="true" @click.stop></mselect>
+                                            <mselect ref="timeSelect" :initlist="timeList" :hideAll="true" @click.stop></mselect>
                                         </div>
                                     </label>
                                 </div>
@@ -86,6 +86,7 @@
                 })
             }
             return {
+                id:'',
                 client: '',
                 project: '',
                 batch: '',
@@ -96,7 +97,7 @@
                 taskNum: 0,
                 templateList: [],
                 timeList: timeList,
-                type:0
+                type: 0
             }
         },
         created() {
@@ -105,6 +106,7 @@
             this.batch = this.$route.query.batch
             this.dataNum = this.$route.query.dataNum
             this.pushTime = this.$route.query.pushTime
+            this.id = this.$route.query.id
 
             this.$ajax({
                 url: this.templateApi,
@@ -125,8 +127,40 @@
                         this.task.splice(key, 1)
                 })
             },
-            submit(){
-                
+            submit() {
+                let task = this.$refs.subTask
+                let arr = []
+                let canSubmit = true
+                task.forEach((item, index) => {
+                    if (parseInt(item.num)) {
+                        arr.push({
+                            id:'',
+                            template_id: item.selected.id,
+                            flag: item.tunnel.id,
+                            channel:item.tunnel.name,
+                            num: parseInt(item.num)
+                        })
+                    }else{
+                        canSubmit = false
+                    }
+                })
+                if(canSubmit){
+                    this.$ajax({
+                        url:API.task_save,
+                        data:{
+                            task_id:this.id,
+                            status:this.type?2:1,
+                            time: this.$refs.timeSelect.selected.id,
+                            sms_task_id:'',
+                            task:arr
+                        },
+                        success:data=>{
+                            console.log(123)
+                        }
+                    })
+                }else{
+                    this.$alert('请注意，有任务的数据量占比不是整数')
+                }
             }
         },
         components: {

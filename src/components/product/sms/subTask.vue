@@ -12,7 +12,7 @@
                 <mselect ref="tunnelSelect" :api="tunnelApi" @change="changeTunnel" :hideAll="true"></mselect>
             </li>
             <li>
-                <label class="name">数据量</label>
+                <label class="name">数据量占比</label>
                 <div class="input-warp">
                     <input class="text w200" v-model.number="num" type="text" @change="checkNum"><span>%</span>
                 </div>
