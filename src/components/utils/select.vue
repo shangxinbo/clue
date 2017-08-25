@@ -48,6 +48,8 @@
         },
         methods: {
             showSelect() {
+                event.stopPropagation()
+                event.preventDefault()
                 if (this.disabled) return false
                 if (this.show) {
                     this.show = false

@@ -68,6 +68,23 @@
         },
         created() {
             this.init()
+
+            this.$ajax({
+                url: API.sms_template_list,
+                data: {
+                    name: this.customer,
+                    array: [{ id: 1, template_id: 1 },{ id: 1, template_id: 1 }]
+                },
+                success: (data) => {
+                    if (data.code == 200) {
+                        this.list = data.data.data
+                        this.totalPage = Math.ceil(data.data.total / data.data.per_page)
+                    } else {
+                        this.$toast(data.message)
+                    }
+                }
+            })
+
         },
         watch: {
             $route: function () {

@@ -28,7 +28,7 @@
                 <a href="产品管理.html"><span><i class="icon icon03"></i>产品管理</span></a>
                 <ul>
                     <li>
-                        <a href="产品管理-短信营销.html"><span>短信营销</span></a>
+                        <router-link to="/product/sms/index/"><span>短信营销</span></router-link>
                         <ul>
                             <li>
                                 <a href="产品管理-短信营销-通道管理.html"><span>通道管理</span></a>
