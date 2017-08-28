@@ -114,7 +114,7 @@
                                 list.forEach((item, index) => {
                                     arr.push({
                                         id: (item.id == undefined) ? ((item.code == undefined) ? index + 1 : item.code) : item.id,
-                                        name: item.name || item.desc || item.user || item.costomer_name|| item
+                                        name: item.name || item.desc || item.user || item.costomer_name || item.model_name || item
                                     })
                                 })
                             } else {

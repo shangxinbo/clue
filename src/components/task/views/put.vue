@@ -3,43 +3,11 @@
         <ul class="data-text">
             <li>
                 <label class="name">选择模型</label>
-                <div class="input-warp">
-                    <div class="select-warp ">
-                        <!-- 在div上加上class（select-open）显示出ul列表 -->
-                        <p class="all">
-                            <span>请选择</span>
-                        </p>
-                        <div class="select-ul">
-                            <div class="scroll-warp scrollBar">
-                                <ul>
-                                    <li>贷款</li>
-                                    <li>信用卡</li>
-                                    <li>教育</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <mselect ref="modelSelect" :api="modelApi"></mselect>
             </li>
             <li>
                 <label class="name">选择产品</label>
-                <div class="input-warp">
-                    <div class="select-warp ">
-                        <!-- 在div上加上class（select-open）显示出ul列表 -->
-                        <p class="all">
-                            <span>请选择</span>
-                        </p>
-                        <div class="select-ul">
-                            <div class="scroll-warp scrollBar">
-                                <ul>
-                                    <li>短信营销</li>
-                                    <li>易获客</li>
-                                    <li>小金库</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <mselect ref="productSelect" :api="productApi"></mselect>
             </li>
             <li>
                 <label class="name">选择客户</label>
@@ -294,3 +262,18 @@
         </ul>
     </div>
 </template>
+<script>
+    import API from 'src/services/api'
+    import mselect from 'components/utils/select'
+    export default {
+        data(){
+            return {
+                modelApi: API.models_get,
+                productApi:API.product_list,
+            }
+        },
+        components:{
+            mselect
+        }
+    }
+</script>
