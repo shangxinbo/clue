@@ -21,7 +21,7 @@
                         </li>
                         <li class="li-download">
                             <div class="add-model">
-                                <a href="javascript:void(0);" class="btn add" @click="showAdd">
+                                <a href="javascript:void(0);" class="btn add" @click="showAdd()">
                                     <span>
                                         <i class="icon"></i>创建客户</span>
                                 </a>

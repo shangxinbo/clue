@@ -2,7 +2,7 @@
     <div class="dialog" :style="{'display':style,'margin-left':'-265px','margin-top':'-118px'}">
         <a href="javascript:void(0);" class="icon dialog-close" @click="close" title="关闭"></a>
         <div class="dialog-header">
-            <h4>创建客户</h4>
+            <h4>{{id?'编辑客户':'创建客户'}}</h4>
         </div>
         <div class="dialog-body">
             <ul class="query-warp">
@@ -27,6 +27,7 @@
             return {
                 style: 'none',
                 name: '',
+                id: ''
             }
         },
         methods: {
@@ -37,14 +38,15 @@
             sure() {
                 if (this.name) {
                     this.$ajax({
-                        url: API.goldlib_user_add,
+                        url: this.id ? API.goldlib_user_edit : API.goldlib_user_add,
                         data: {
+                            id: this.id,
                             costomer_name: this.name
                         },
                         success: data => {
                             this.close()
                             if (data.code == 200) {
-                                this.$toast('添加成功', () => {
+                                this.$toast(`${this.id ? '编辑成功' : '创建成功'}`, () => {
                                     window.location.reload()
                                 })
                             } else {
@@ -56,9 +58,10 @@
             }
         },
         created() {
-            this.$on('show', function () {
+            this.$on('show', (id, name) => {
                 this.style = 'block'
-                this.name = ''
+                this.id = id
+                this.name = name ? name : ''
                 this.$store.commit('SHOW_LAYER')
             })
         }

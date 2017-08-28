@@ -22,5 +22,6 @@ export default {
     sms_customer_all: API_PRE + '/costomer/getmessagecomtomer',
     goldlib_user: API_PRE + '/smallvault/costomerlist',
     goldlib_user_add: API_PRE + '/smallvault/createcostomer',
+    goldlib_user_edit: API_PRE + '/smallvault/editcostomer',
     goldlib_user_del: API_PRE + '/smallvault/deletecostomer'
 }
