@@ -40,7 +40,7 @@
                                 <router-link to="/product/sms/customer/index"><span>客户管理</span></router-link>
                             </li>
                             <li>
-                                <a href="产品管理-短信营销-资质管理.html"><span>资质管理</span></a>
+                                <router-link to="/product/sms/certificate/index"><span>资质管理</span></router-link>
                             </li>
                         </ul>
                     </li>
