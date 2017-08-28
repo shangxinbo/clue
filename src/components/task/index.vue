@@ -3,9 +3,7 @@
         <div class="main">
             <div class="title-warp">
                 <div class="tag-nav">
-                    <a href="任务管理.html" class="active">贷款</a>
-                    <a href="任务管理-信用卡.html" class="">信用卡</a>
-                    <a href="任务管理-教育.html" class="">教育</a>
+                    <router-link v-for="item in modelList" :to="{path:'/task/index',query:{id:item.id}}" :key="item.id" :class="{'active':navId==item.id}">{{item.model_name}}</router-link>
                 </div>
                 <div class="add-model">
                     <a href="任务管理-创建投放任务.html" class="btn add">
@@ -19,23 +17,7 @@
                     <ul class="data-info">
                         <li>
                             <label class="name">产品</label>
-                            <div class="input-warp">
-                                <div class="select-warp ">
-                                    <!-- 在div上加上class（select-open）显示出ul列表 -->
-                                    <p class="all">
-                                        <span>请选择</span>
-                                    </p>
-                                    <div class="select-ul">
-                                        <div class="scroll-warp scrollBar">
-                                            <ul>
-                                                <li>短信营销</li>
-                                                <li>易获客</li>
-                                                <li>小金库</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            <mselect ref="productSelect" :api="productApi" :id="product"></mselect>
                         </li>
                         <li>
                             <label class="name">客户名称：</label>
@@ -158,3 +140,45 @@
         </div>
     </div>
 </template>
+<script>
+    import API from 'src/services/api'
+    import mselect from 'components/utils/select'
+    export default {
+        data() {
+            return {
+                modelList: [],
+                navId: '',
+                productApi:API.product_list,
+                product:''
+            }
+        },
+        watch: {
+            $route(newVal, oldVal) {
+                this.nav()
+            }
+        },
+        created() {
+            this.$ajax({
+                url: API.models_get,
+                data: {},
+                success: data => {
+                    if (data.code == 200) {
+                        this.modelList = data.data
+                        this.nav()
+                    } else {
+                        this.$toast(data.message)
+                    }
+                }
+            })
+        },
+        methods: {
+            nav() {
+                this.navId = this.$route.query.id || this.modelList[0].id
+            },
+        },
+        components: {
+            mselect,
+        }
+    }
+
+</script>
