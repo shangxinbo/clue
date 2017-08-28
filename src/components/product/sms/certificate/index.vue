@@ -41,14 +41,19 @@
                             <span>{{props.item.id}}</span>
                         </td>
                         <td width="20%" label="资质名称">
-                            <span>{{props.item.qualification_id | certificate_text}}</span>
+                            <span>{{certificate_text(props.item.qualification_id)}}</span>
                         </td>
                         <td width="20%" label="客户名称">
                             <span>{{customer_text(props.item.customer_id)}}</span>
                         </td>
                         <td width="20%" label="操作">
                             <a :href="`/costomer/download?id=${props.item.id}`" target="black">下载资质</a>
-                            <a href="javascript:void(0);" @click="del(props.item.id,props.item.costomer_name)">重新上传</a>
+                            <router-link :to="{path:'/product/sms/certificate/edit/',query:{
+                                id:props.item.id,
+                                certificate:certificate_text(props.item.qualification_id),
+                                customer:customer_text(props.item.customer_id),
+                                pic:props.item.qualification_path
+                            }}">重新上传</router-link>
                         </td>
                     </template>
                 </mtable>
@@ -80,21 +85,19 @@
         created() {
             this.init()
         },
-        filters: {
-            certificate_text(val) {
-                switch (val) {
-                    case 1: return '营业执照'
-                    case 2: return '授权书'
-                    default: return '其他'
-                }
-            }
-        },
         watch: {
             $route: function () {
                 this.init()
             }
         },
         methods: {
+            certificate_text(val) {
+                switch (val) {
+                    case 1: return '营业执照'
+                    case 2: return '授权书'
+                    default: return '其他'
+                }
+            },
             customer_text(val) { //maybe filter more fitable
                 let text = ''
                 this.customer_list.forEach((item, index) => {

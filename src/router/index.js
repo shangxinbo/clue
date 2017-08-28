@@ -12,6 +12,7 @@ const product_sms_push = resolve => System.import('components/product/sms/push')
 const product_sms_tunnel = resolve => System.import('components/product/sms/tunnel')
 const product_sms_customer_index = resolve => System.import('components/product/sms/customer/index')
 const product_sms_certificate_index = resolve => System.import('components/product/sms/certificate/index')
+const product_sms_certificate_add = resolve => System.import('components/product/sms/certificate/add')
 const product_sms_certificate_edit = resolve => System.import('components/product/sms/certificate/edit')
 const product_goldlib_index = resolve => System.import('components/product/goldlib/index')
 const product_goldlib_user_list = resolve => System.import('components/product/goldlib/users/index')
@@ -30,8 +31,8 @@ let mRouter = new Router({
                 { path: '/product/sms/tunnel/', name: 'product_sms_tunnel', component: product_sms_tunnel },
                 { path: '/product/sms/customer/index/', name: 'product_sms_customer_index', component: product_sms_customer_index },
                 { path: '/product/sms/certificate/index/', name: 'product_sms_certificate_index', component: product_sms_certificate_index },
-                { path: '/product/sms/certificate/add/', name: 'product_sms_certificate_add', component: product_sms_certificate_edit },
-                { path: '/product/sms/certificate/edit/:id', name: 'product_sms_certificate_edit', component: product_sms_certificate_edit },
+                { path: '/product/sms/certificate/add/', name: 'product_sms_certificate_add', component: product_sms_certificate_add },
+                { path: '/product/sms/certificate/edit/', name: 'product_sms_certificate_edit', component: product_sms_certificate_edit },
                 { path: '/product/goldlib/index/', name: 'product_goldlib_index', component: product_goldlib_index },
                 { path: '/product/goldlib/user/', name: 'product_goldlib_user_list', component: product_goldlib_user_list },
             ]

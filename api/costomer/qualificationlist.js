@@ -17,6 +17,7 @@ module.exports = function (req, res) {
                 "id": '@natural',
                 "qualification_id": '@natural(1,3)',
                 "customer_id": '@natural(6,8)',
+                "qualification_path":"aaa/aaa/aa.jpg"
             }
         ]
     })

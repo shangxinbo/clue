@@ -2,7 +2,7 @@
     <div class="warp">
         <div class="main">
             <div class="title-warp">
-                <span class="name">编辑客户资质</span>
+                <span class="name">创建客户资质</span>
             </div>
             <div class="data-property task-box">
                 <form>
@@ -10,15 +10,11 @@
                         <ul class="data-text">
                             <li>
                                 <label class="name">资质名称</label>
-                                <div class="input-warp">
-                                    <p class="text">{{certificate}}</p>
-                                </div>
+                                <mselect ref="certificateSelect" :initlist="types" hideAll="true"></mselect>
                             </li>
                             <li>
                                 <label class="name">客户名称</label>
-                                <div class="input-warp">
-                                    <p class="text">{{customer}}</p>
-                                </div>
+                                <mselect ref="customerSelect" :api="customerApi" hideAll="true"></mselect>
                             </li>
                             <li>
                                 <label class="name">资质图片</label>
@@ -39,7 +35,6 @@
                                         " multiple="false" accept=".png,.jpg,.jpeg,.gif" @change="selectFile($event)" />
                                     </button>
                                     <p v-if="file_error" class="tips error">{{file_error}}</p>
-                                    <div class="img"><img :src="pic"></div>
                                 </div>
                             </li>
                             <li class="li-btn">
@@ -57,16 +52,15 @@
 <script>
     import API from 'src/services/api'
     import mselect from 'components/utils/select'
+    let types = [{ id: 1, name: '营业执照' }, { id: 2, name: '授权书' }, { id: 3, name: '其他' }]
     export default {
         data() {
             return {
-                id:this.$route.query.id,
-                certificate: this.$route.query.certificate,
-                customer: this.$route.query.customer,
-                pic:this.$route.query.pic,
+                types: types,
                 filePath: '',
                 file: '',
                 file_error: '',
+                customerApi: API.sms_customer_all
             }
         },
         methods: {
@@ -92,14 +86,15 @@
                     return false
                 }
                 let data = new FormData()
-                data.append('id', this.id)
+                data.append('qualification_id', this.$refs.certificateSelect.selected.id)
+                data.append('customer_id', this.$refs.customerSelect.selected.id)
                 data.append('qualification_path', this.file)
                 this.$ajax({
-                    url: API.sms_certificate_edit,
+                    url: API.sms_certificate_add,
                     data: data,
                     success: data => {
                         if (data.code == 200) {
-                            this.$toast('修改成功', () => {
+                            this.$toast('添加成功', () => {
                                 this.$router.replace('/product/sms/certificate/index/')
                             })
                         } else {
@@ -108,6 +103,9 @@
                     }
                 })
             }
+        },
+        components: {
+            mselect
         }
     }
 

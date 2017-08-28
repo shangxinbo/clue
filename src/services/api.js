@@ -18,6 +18,7 @@ export default {
     sms_customer_del: API_PRE + '/costomer/deletecostomer',
     sms_certificate_list: API_PRE + '/costomer/qualificationlist',
     sms_certificate_add: API_PRE + '/costomer/qualificationadd',
+    sms_certificate_edit: API_PRE + '/costomer/qualificationedit',
     sms_customer_all: API_PRE + '/costomer/getmessagecomtomer',
     goldlib_user: API_PRE + '/smallvault/costomerlist',
     goldlib_user_add: API_PRE + '/smallvault/createcostomer',
