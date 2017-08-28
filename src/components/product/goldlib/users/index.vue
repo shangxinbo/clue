@@ -37,8 +37,8 @@
                             <span>{{props.item.costomer_name}}</span>
                         </td>
                         <td width="40%" label="操作">
-                            <router-link :to="`/product/sms/template/edit/${props.item.id}`">编辑</router-link>
-                            <a href="javascript:void(0);" @click="del(props.item.id,props.item.name)">删除</a>
+                            <a href="javascript:void(0);" @click="showAdd(props.item.id,props.item.costomer_name)">编辑</a>
+                            <a href="javascript:void(0);" @click="del(props.item.id,props.item.costomer_name)">删除</a>
                         </td>
                     </template>
                 </mtable>
@@ -105,8 +105,27 @@
                     query: query
                 })
             },
-            showAdd(){
-                this.$refs.addDialog.$emit('show')
+            showAdd(id,name) {
+                this.$refs.addDialog.$emit('show',id,name)
+            },
+            del(id, name) {
+                this.$confirm(`确定要删除此${name}`, () => {
+                    this.$ajax({
+                        url: API.goldlib_user_del,
+                        data: {
+                            id: id
+                        },
+                        success: data => {
+                            if (data.code == 200) {
+                                this.$toast('删除成功', () => {
+                                    window.location.reload()
+                                })
+                            } else {
+                                this.$toast(data.message)
+                            }
+                        }
+                    })
+                })
             }
         },
         components: {

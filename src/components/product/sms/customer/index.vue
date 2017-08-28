@@ -2,7 +2,7 @@
     <div class="warp">
         <div class="main">
             <div class="title-warp">
-                <span class="name">模板管理</span>
+                <span class="name">客户管理</span>
             </div>
             <div class="data-property">
                 <form>
@@ -10,21 +10,21 @@
                         <li>
                             <label class="name">客户名称</label>
                             <div class="input-warp">
-                                <input class="text" type="text" v-model="customer">
+                                <input class="text" v-model="customer" type="text">
                             </div>
                         </li>
                         <li class="li-btn">
-                            <button class="btn search" type="button" @click="search">
+                            <button class="btn search" type="button">
                                 <span>
                                     <i class="icon search"></i>查询</span>
                             </button>
                         </li>
                         <li class="li-download">
                             <div class="add-model">
-                                <router-link to="/product/sms/template/add" class="btn add">
+                                <a href="javascript:void(0);" @click="add" class="btn add">
                                     <span>
-                                        <i class="icon"></i>创建模板</span>
-                                </router-link>
+                                        <i class="icon"></i>创建客户</span>
+                                </a>
                             </div>
                         </li>
                     </ul>
@@ -33,37 +33,42 @@
             <div class="data-warp">
                 <mtable :list="list">
                     <template scope="props">
-                        <td width="20%" label="模板名称">
-                            <span>{{props.item.name}}</span>
-                        </td>
                         <td width="20%" label="客户">
-                            <span>{{props.item.client_name}}</span>
+                            <span>{{props.item.costomer_name}}</span>
                         </td>
-                        <td width="50%" label="短信内容">
-                            <span :title="props.item.preview_content">{{props.item.preview_content}}</span>
+                        <td width="20%" label="营业执照">
+                            <span>{{props.item.license}}</span>
                         </td>
-                        <td width="10%" label="操作">
-                            <router-link :to="`/product/sms/template/edit/${props.item.id}`">编辑</router-link>
-                            <a href="javascript:void(0);" @click="del(props.item.id,props.item.name)">删除</a>
+                        <td width="20%" label="授权书">
+                            <span>{{props.item.warrant}}</span>
+                        </td>
+                        <td width="20%" label="其他">
+                            <span>{{props.item.other}}</span>
+                        </td>
+                        <td width="20%" label="操作">
+                            <a href="javascript:void(0);" @click="edit(props.item.id,props.item.costomer_name)">编辑</a>
+                            <a href="javascript:void(0);" @click="del(props.item.id,props.item.costomer_name)">删除</a>
                         </td>
                     </template>
                 </mtable>
                 <pages :total="totalPage" :current="currentPage" @jump='search'></pages>
             </div>
         </div>
+        <editDialog ref="editDialog"></editDialog>
     </div>
 </template>
 <script>
-    import API from 'src/services/api'
     import pages from 'components/common/pages'
     import mtable from 'components/utils/table'
+    import editDialog from './edit'
+    import API from 'src/services/api'
     export default {
         data() {
             return {
                 list: [],
                 currentPage: 1,
                 totalPage: 1,
-                customer: ''
+                customer: '',
             }
         },
         created() {
@@ -82,9 +87,9 @@
             },
             getData() {
                 this.$ajax({
-                    url: API.sms_template_list,
+                    url: API.sms_customer_list,
                     data: {
-                        name: this.customer,
+                        costomer_name: this.customer,
                         page: this.currentPage,
                     },
                     success: (data) => {
@@ -109,8 +114,14 @@
                     query: query
                 })
             },
+            add() {
+                this.$refs.editDialog.$emit('show')
+            },
+            edit(id,name) {
+                this.$refs.editDialog.$emit('show',id,name)
+            },
             del(id, name) {
-                this.$confirm(`确定要删除此${name}`, () => {
+                this.$confirm(`是否删除${name}`, () => {
                     this.$ajax({
                         url: API.sms_customer_del,
                         data: {
@@ -118,7 +129,7 @@
                         },
                         success: data => {
                             if (data.code == 200) {
-                                this.init()
+                                window.location.reload()
                             } else {
                                 this.$toast(data.message)
                             }
@@ -129,8 +140,8 @@
         },
         components: {
             pages,
-            mtable
+            mtable,
+            editDialog
         }
     }
-
 </script>
