@@ -17,10 +17,10 @@
                 </ul>
             </li>
             <li>
-                <a href="任务管理.html"><span><i class="icon icon02"></i>任务管理</span></a>
+                <router-link to="/task/index/"><span><i class="icon icon02"></i>任务管理</span></router-link>
                 <ul>
                     <li>
-                        <a href="任务管理-任务状态.html"><span>任务状态</span></a>
+                        <router-link to="/task/status/"><span>任务状态</span></router-link>
                     </li>
                 </ul>
             </li>
