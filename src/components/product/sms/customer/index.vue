@@ -14,7 +14,7 @@
                             </div>
                         </li>
                         <li class="li-btn">
-                            <button class="btn search" type="button">
+                            <button class="btn search" type="button"  @click="search()">
                                 <span>
                                     <i class="icon search"></i>查询</span>
                             </button>
