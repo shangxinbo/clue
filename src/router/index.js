@@ -16,6 +16,7 @@ const product_sms_certificate_add = resolve => System.import('components/product
 const product_sms_certificate_edit = resolve => System.import('components/product/sms/certificate/edit')
 const product_goldlib_index = resolve => System.import('components/product/goldlib/index')
 const product_goldlib_user_list = resolve => System.import('components/product/goldlib/users/index')
+const data_index = resolve => System.import('components/data/index')
 
 let mRouter = new Router({
     routes: [
@@ -35,6 +36,7 @@ let mRouter = new Router({
                 { path: '/product/sms/certificate/edit/', name: 'product_sms_certificate_edit', component: product_sms_certificate_edit },
                 { path: '/product/goldlib/index/', name: 'product_goldlib_index', component: product_goldlib_index },
                 { path: '/product/goldlib/user/', name: 'product_goldlib_user_list', component: product_goldlib_user_list },
+                { path: '/data/index/', name: 'data_index', component: data_index },
             ]
         },
         { path: '/error*', name: 'error', component: error },

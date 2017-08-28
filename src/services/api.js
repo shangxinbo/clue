@@ -23,5 +23,7 @@ export default {
     goldlib_user: API_PRE + '/smallvault/costomerlist',
     goldlib_user_add: API_PRE + '/smallvault/createcostomer',
     goldlib_user_edit: API_PRE + '/smallvault/editcostomer',
-    goldlib_user_del: API_PRE + '/smallvault/deletecostomer'
+    goldlib_user_del: API_PRE + '/smallvault/deletecostomer',
+    models_get: API_PRE + '/model/modecategory',
+    models_create: API_PRE + '/model/createmodel'
 }

@@ -3,7 +3,7 @@
         <h1><a href="#" title="GEO内部线索管理系统" class="logo"><img :src="logo" alt="GEO内部线索管理系统" /></a></h1>
         <ul>
             <li>
-                <a href="数据管理.html"><span><i class="icon icon01"></i>数据管理</span></a>
+                <router-link to="/data/index/"><span><i class="icon icon01"></i>数据管理</span></router-link>
                 <ul>
                     <li>
                         <a href="数据管理-贷款数据明细.html"><span>贷款</span></a>
