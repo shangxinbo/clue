@@ -6,10 +6,10 @@
                     <router-link v-for="item in modelList" :to="{path:'/task/index',query:{id:item.id}}" :key="item.id" :class="{'active':navId==item.id}">{{item.model_name}}</router-link>
                 </div>
                 <div class="add-model">
-                    <a href="任务管理-创建投放任务.html" class="btn add">
+                    <router-link to="/task/create" class="btn add">
                         <span>
                             <i class="icon"></i>创建投放任务</span>
-                    </a>
+                    </router-link>
                 </div>
             </div>
             <div class="data-property">

@@ -19,6 +19,9 @@ const product_goldlib_user_list = resolve => System.import('components/product/g
 const data_index = resolve => System.import('components/data/index')
 const task_index = resolve => System.import('components/task/index')
 const task_status = resolve => System.import('components/task/status')
+const task_create = resolve => System.import('components/task/create')
+const task_puton_create = resolve => System.import('components/task/views/put')
+const task_replenish_create = resolve => System.import('components/task/views/replenish')
 
 let mRouter = new Router({
     routes: [
@@ -41,6 +44,15 @@ let mRouter = new Router({
                 { path: '/data/index/', name: 'data_index', component: data_index },
                 { path: '/task/index/', name: 'task_index', component: task_index },
                 { path: '/task/status/', name: 'task_status', component: task_status },
+                {
+                    path: '/task/create/',
+                    component: task_create,
+                    children: [
+                        { path: '/task/create/puton', name: 'task_puton_create', component: task_puton_create },
+                        { path: '/task/create/replenish', name: 'task_replenish_create', component: task_replenish_create },
+                        { path: '*', redirect: '/task/create/puton' }
+                    ]
+                },
             ]
         },
         { path: '/error*', name: 'error', component: error },
