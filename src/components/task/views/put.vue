@@ -57,10 +57,10 @@
                         <i class="icon" @click="areaType=2"></i>
                         <span class="radioname"></span>
                         <div class="select-current">
-                            <p v-for="item in selected_citys">
-                                <span>{{item.province.name}}</span>
-                                <span v-if="item.city.id">{{item.city.name}}</span>
-                                <i class="icon"></i>
+                            <p v-for="(item,index) in selected_citys">
+                                <span>{{index}}</span>
+                                <span v-for="city in item">{{city.name}}</span>
+                                <i class="icon" @click="removeSelectedCitys(index)"></i>
                             </p>
                         </div>
                         <areaSelect ref="areaSelect1" @add="addSelectCitys"></areaSelect>
@@ -70,10 +70,10 @@
                         <i class="icon" @click="areaType=3"></i>
                         <span class="radioname">屏蔽</span>
                         <div class="select-current">
-                            <p v-for="item in unselected_citys">
-                                <span>{{item.province.name}}</span>
-                                <span v-if="item.city.id">{{item.city.name}}</span>
-                                <i class="icon"></i>
+                            <p v-for="(item,index) in unselected_citys">
+                                <span>{{index}}</span>
+                                <span v-for="city in item">{{city.name}}</span>
+                                <i class="icon" @click="removeUnSelectedCitys(index)"></i>
                             </p>
                         </div>
                         <areaSelect ref="areaSelect2" @add="addUnSelectCitys"></areaSelect>
@@ -121,6 +121,7 @@
     import API from 'src/services/api'
     import mselect from 'components/utils/select'
     import areaSelect from './area'
+    import Vue from 'vue'
     export default {
         data() {
             return {
@@ -143,9 +144,9 @@
                 providers: [],
                 providers_error: '',
                 selected_providers: [],
-                selected_citys: [],
+                selected_citys: {},
                 area_error: '',
-                unselected_citys: [],
+                unselected_citys: {},
                 areaType: 1,
                 datepicker: null,
                 dateType: 1,
@@ -216,34 +217,57 @@
                 }
             },
             addSelectCitys(province, city) {
-                let tag = false
-                for (let i = 0; i < this.selected_citys.length; i++) {
-                    let s = this.selected_citys[i]
-                    if (province.id == s.province.id && city.id == s.city.id) {
-                        tag = true
+                if (this.selected_citys.hasOwnProperty(province)) {
+                    if (this.selected_citys[province].length > 0) {
+                        if (city.id) {
+                            let m = this.selected_citys[province]
+                            let index = m.findIndex((item, index) => {
+                                return item.id == city.id
+                            })
+                            if (index < 0) {
+                                this.selected_citys[province].push(city)
+                            }
+                        } else {
+                            Vue.set(this.selected_citys, province, [])
+                        }
+                    }
+                } else {
+                    if (city.id) {
+                        Vue.set(this.selected_citys, province, [city])
+                    } else {
+                        Vue.set(this.selected_citys, province, [])
                     }
                 }
-                if (!tag) {
-                    this.selected_citys.push({
-                        province: province,
-                        city: city
-                    })
-                }
+
             },
             addUnSelectCitys(province, city) {
-                let tag = false
-                for (let i = 0; i < this.unselected_citys.length; i++) {
-                    let s = this.unselected_citys[i]
-                    if (province.id == s.province.id && city.id == s.city.id) {
-                        tag = true
+                if (this.unselected_citys.hasOwnProperty(province)) {
+                    if (this.unselected_citys[province].length > 0) {
+                        if (city.id) {
+                            let m = this.unselected_citys[province]
+                            let index = m.findIndex((item, index) => {
+                                return item.id == city.id
+                            })
+                            if (index < 0) {
+                                this.unselected_citys[province].push(city)
+                            }
+                        } else {
+                            Vue.set(this.unselected_citys, province, [])
+                        }
+                    }
+                } else {
+                    if (city.id) {
+                        Vue.set(this.unselected_citys, province, [city])
+                    } else {
+                        Vue.set(this.unselected_citys, province, [])
                     }
                 }
-                if (!tag) {
-                    this.unselected_citys.push({
-                        province: province,
-                        city: city
-                    })
-                }
+            },
+            removeSelectedCitys(province) {
+                Vue.delete(this.selected_citys, province)
+            },
+            removeUnSelectedCitys(province) {
+                Vue.delete(this.unselected_citys, province)
             },
             submit() {
                 if (!this.priority) {
