@@ -34,6 +34,7 @@ export default {
     provider_list: API_PRE + '/task/operatorlist',
     task_create: API_PRE + '/task/createfull',
     task_uploadfile: API_PRE + '/task/uploadfile',
+    task_list: API_PRE + '/task/taskmanage',
     task_create_addition: API_PRE + '/task/createadd',
     get_provinces: API_PRE + '/area/getProvince',
     get_citys: API_PRE + '/area/getCity'

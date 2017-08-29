@@ -22,11 +22,11 @@
                         <li>
                             <label class="name">客户名称：</label>
                             <div class="input-warp">
-                                <input class="text" type="text">
+                                <input class="text" v-model="customer" type="text">
                             </div>
                         </li>
                         <li class="li-btn">
-                            <button class="btn search" type="button">
+                            <button class="btn search" type="button" @click="search">
                                 <span>
                                     <i class="icon search"></i>查询</span>
                             </button>
@@ -35,107 +35,30 @@
                 </form>
             </div>
             <div class="data-warp">
-                <div class="data-table">
-                    <table>
-                        <tbody>
-                            <tr>
-                                <th>客户</th>
-                                <th>项目</th>
-                                <th>产品</th>
-                                <th>投放日期</th>
-                                <th>投放量</th>
-                                <th>操作</th>
-                            </tr>
-                            <tr>
-                                <td>平安</td>
-                                <td>I贷</td>
-                                <td>短信营销</td>
-                                <td>每天</td>
-                                <td>
-                                    <span class="yellow">30,000</span>
-                                </td>
-                                <td>
-                                    <a href="javascript:void(0);" onclick="getWindow('editPop');">编辑</a>
-                                    <a href="#">停止</a>
-                                </td>
-                            </tr>
-                            <tr class="tr2">
-                                <td>平安</td>
-                                <td>I贷</td>
-                                <td>短信营销</td>
-                                <td>每天</td>
-                                <td>
-                                    <span class="yellow">30,000</span>
-                                </td>
-                                <td>
-                                    <a href="javascript:void(0);" onclick="getWindow('editPop');">编辑</a>
-                                    <a href="#">停止</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>平安</td>
-                                <td>I贷</td>
-                                <td>短信营销</td>
-                                <td>每天</td>
-                                <td>
-                                    <span class="yellow">30,000</span>
-                                </td>
-                                <td>
-                                    <a href="javascript:void(0);" onclick="getWindow('editPop');">编辑</a>
-                                    <a href="#">停止</a>
-                                </td>
-                            </tr>
-                            <tr class="tr2">
-                                <td>平安</td>
-                                <td>I贷</td>
-                                <td>短信营销</td>
-                                <td>每天</td>
-                                <td>
-                                    <span class="yellow">30,000</span>
-                                </td>
-                                <td>
-                                    <a href="javascript:void(0);" onclick="getWindow('editPop');">编辑</a>
-                                    <a href="#">停止</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>平安</td>
-                                <td>I贷</td>
-                                <td>短信营销</td>
-                                <td>每天</td>
-                                <td>
-                                    <span class="yellow">30,000</span>
-                                </td>
-                                <td>
-                                    <a href="javascript:void(0);" onclick="getWindow('editPop');">编辑</a>
-                                    <a href="#">停止</a>
-                                </td>
-                            </tr>
-                            <tr class="tr2">
-                                <td>平安</td>
-                                <td>I贷</td>
-                                <td>短信营销</td>
-                                <td>每天</td>
-                                <td>
-                                    <span class="yellow">30,000</span>
-                                </td>
-                                <td>
-                                    <a href="javascript:void(0);" onclick="getWindow('editPop');">编辑</a>
-                                    <a href="#">停止</a>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="page">
-                    <a class="prev disabled" href="javascript:void(0);">上一页</a>
-                    <a href="javascript:void(0);" class="active">1</a>
-                    <a href="javascript:void(0);">2</a>
-                    <a href="javascript:void(0);">3</a>
-                    <span>...</span>
-                    <a href="javascript:void(0);">19</a>
-                    <a class="next" href="javascript:void(0);">下一页</a>
-                </div>
+                <mtable :list="list">
+                    <template scope="props">
+                        <td width="10%" label="客户">
+                            <span>{{props.item.client_name}}</span>
+                        </td>
+                        <td width="10%" label="项目">
+                            <span>{{props.item.project_name}}</span>
+                        </td>
+                        <td width="10%" label="产品">
+                            <span>{{props.item.product_name}}</span>
+                        </td>
+                        <td width="20%" label="投放日期">
+                            <span>{{props.item.send_date}}</span>
+                        </td>
+                        <td width="10%" label="投放量">
+                            <span>{{props.item.data_num}}</span>
+                        </td>
+                        <td width="10%" label="操作">
+                            <a href="javascript:void(0);">编辑</a>
+                            <a href="#">停止</a>
+                        </td>
+                    </template>
+                </mtable>
+                <pages :total="totalPage" :current="currentPage" @jump='search'></pages>
             </div>
         </div>
     </div>
@@ -143,18 +66,25 @@
 <script>
     import API from 'src/services/api'
     import mselect from 'components/utils/select'
+    import mtable from 'components/utils/table'
+    import pages from 'components/common/pages'
     export default {
         data() {
             return {
                 modelList: [],
                 navId: '',
-                productApi:API.product_list,
-                product:''
+                productApi: API.product_list,
+                product: '',
+                currentPage: 1,
+                totalPage: 1,
+                customer: '',
+                list: []
             }
         },
         watch: {
             $route(newVal, oldVal) {
                 this.nav()
+                this.initList()
             }
         },
         created() {
@@ -165,6 +95,7 @@
                     if (data.code == 200) {
                         this.modelList = data.data
                         this.nav()
+                        this.initList()
                     } else {
                         this.$toast(data.message)
                     }
@@ -175,9 +106,49 @@
             nav() {
                 this.navId = this.$route.query.id || this.modelList[0].id
             },
+            initList() {
+                this.currentPage = this.$route.query.page ? this.$route.query.page : 1
+                this.customer = this.$route.query.customer ? this.$route.query.customer : ''
+                this.product = this.$route.query.product ? this.$route.query.product : ''
+                this.$ajax({
+                    url: API.task_list,
+                    data: {
+                        page: this.currentPage,
+                        nums: 10,
+                        model_id: this.navId,
+                        product_id: this.product,
+                        client_name: this.customer
+                    },
+                    success: data => {
+                        if (data.code == 200) {
+                            this.list = data.data.list
+                            this.totalPage = Math.ceil(data.data.page.total / 10)
+                        } else {
+                            this.$toast(data.message)
+                        }
+                    }
+                })
+            },
+            search(param) {
+                let query
+                if (!isNaN(param)) {
+                    query = Object.assign({}, this.$route.query, { page: param })
+                } else {
+                    query = Object.assign({}, {
+                        customer: this.customer,
+                        product: this.$refs.productSelect.selected.id
+                    })
+                }
+                this.$router.replace({
+                    name: this.$route.name,
+                    query: query
+                })
+            }
         },
         components: {
             mselect,
+            pages,
+            mtable
         }
     }
 
