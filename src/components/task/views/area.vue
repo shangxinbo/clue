@@ -2,12 +2,12 @@
     <div class="date-warp">
         <div class="select-warp" :class="{'select-open':select1Show}">
             <p class="all" @click.stop="select1Show=true">
-                <span>{{selectedProvince.name}}</span>
+                <span>{{selectedProvince||'请选择'}}</span>
             </p>
             <div class="select-ul">
                 <div class="scroll-warp scrollBar" style="overflow-y:auto">
                     <ul>
-                        <li v-for="item in province" @click.stop="selectProvince(item.id,item.name)">{{item.name}}</li>
+                        <li v-for="item in province" @click.stop="selectProvince(item)">{{item}}</li>
                     </ul>
                 </div>
             </div>
@@ -20,7 +20,7 @@
                 <div class="scroll-warp scrollBar" style="overflow-y:auto">
                     <ul>
                         <li @click="selectCity()">全部</li>
-                        <li v-for="item in pieceCity" @click.stop="selectCity(item.id,item.name)">{{item.name}}</li>
+                        <li v-for="item in city" @click.stop="selectCity(item.area_code,item.city)">{{item.city}}</li>
                     </ul>
                 </div>
             </div>
@@ -29,26 +29,34 @@
     </div>
 </template>
 <script>
-    import province from 'assets/js/province.json'
-    import city from 'assets/js/city.json'
     import Vue from 'vue'
+    import API from 'src/services/api'
     export default {
         data() {
             return {
                 select1Show: false,
                 select2Show: false,
-                province: province,
-                city: city,
-                pieceCity: [],
-                selectedProvince: {
-                    id: '',
-                    name: '请选择'
-                },
+                province: [],
+                city: [],
+                selectedProvince: '',
                 selectedCity: {
                     id: '',
                     name: '全部'
                 }
             }
+        },
+        created() {
+            this.$ajax({
+                url: API.get_provinces,
+                data: {},
+                success: data => {
+                    if (data.code == 200) {
+                        this.province = data.data
+                    } else {
+                        this.$toast(data.message)
+                    }
+                }
+            })
         },
         mounted() {
             let _this = this
@@ -61,15 +69,20 @@
         },
         watch: {
             selectedProvince(newVal, oldVal) {
-                this.pieceCity = this.city[newVal.id]
+                this.$ajax({
+                    url:API.get_citys,
+                    data:{
+                        province:newVal
+                    },
+                    success:data=>{
+                        this.city = data.data
+                    }
+                })
             }
         },
         methods: {
-            selectProvince(id, name) {
-                this.selectedProvince = {
-                    id: id,
-                    name: name
-                }
+            selectProvince(name) {
+                this.selectedProvince = name
                 this.select1Show = false
                 this.selectedCity = {
                     id: '',
@@ -84,8 +97,8 @@
                 this.select2Show = false
             },
             add() {
-                if(this.selectedProvince.id){
-                    this.$emit('add',this.selectedProvince,this.selectedCity)
+                if (this.selectedProvince) {
+                    this.$emit('add', this.selectedProvince, this.selectedCity)
                 }
             }
         }
