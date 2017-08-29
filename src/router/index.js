@@ -50,7 +50,7 @@ let mRouter = new Router({
                     children: [
                         { path: '/task/create/puton', name: 'task_puton_create', component: task_puton_create },
                         { path: '/task/create/replenish', name: 'task_replenish_create', component: task_replenish_create },
-                        { path: '*', redirect: '/task/create/puton' }
+                        { path: '/task/create', redirect: '/task/create/puton' }
                     ]
                 },
             ]

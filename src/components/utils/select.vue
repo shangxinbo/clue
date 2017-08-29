@@ -7,7 +7,6 @@
             <div class="select-ul">
                 <div class="scroll-warp scrollBar" style="overflow-y:auto">
                     <ul>
-                        <li @click.stop="change()" v-if="!hideAll">全部</li>
                         <li v-for="(item,index) in list" @click.stop="change(item)">{{item.name}}</li>
                     </ul>
                 </div>
@@ -63,7 +62,7 @@
                 } else {
                     this.selected = {
                         id: '',
-                        name: '全部'
+                        name: '请选择'
                     }
                 }
                 this.$emit('change', this.selected)
@@ -88,7 +87,7 @@
                     } else {
                         this.selected = {
                             id: '',
-                            name: '全部'
+                            name: '请选择'
                         }
                     }
                 }

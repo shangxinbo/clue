@@ -3,83 +3,42 @@
         <ul class="data-text">
             <li>
                 <label class="name">选择模型</label>
-                <mselect ref="modelSelect" :api="modelApi"></mselect>
+                <mselect ref="modelSelect" :api="modelApi" :hideAll="true"></mselect>
             </li>
             <li>
                 <label class="name">选择产品</label>
-                <mselect ref="productSelect" :api="productApi"></mselect>
+                <mselect ref="productSelect" :api="productApi" :hideAll="true" @change="linkCustomer"></mselect>
             </li>
             <li>
                 <label class="name">选择客户</label>
-                <div class="input-warp">
-                    <div class="select-warp ">
-                        <!-- 在div上加上class（select-open）显示出ul列表 -->
-                        <p class="all">
-                            <span>请选择</span>
-                        </p>
-                        <div class="select-ul">
-                            <div class="scroll-warp scrollBar">
-                                <ul>
-                                    <li>平安</li>
-                                    <li>融之家</li>
-                                    <li>叮当贷</li>
-                                    <li>微盟</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <mselect ref="customerSelect" :api="customerApi" :hideAll="true" :param="customerParam" @change="linkProject"></mselect>
             </li>
-            <li>
+            <li v-show="showProjectSelect">
                 <label class="name">选择项目</label>
-                <div class="input-warp">
-                    <div class="select-warp ">
-                        <!-- 在div上加上class（select-open）显示出ul列表 -->
-                        <p class="all">
-                            <span>请选择</span>
-                        </p>
-                        <div class="select-ul">
-                            <div class="scroll-warp scrollBar">
-                                <ul>
-                                    <li>平安</li>
-                                    <li>融之家</li>
-                                    <li>叮当贷</li>
-                                    <li>微盟</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <mselect ref="projectSelect" :api="projectApi" :hideAll="true" :param="projectParam"></mselect>
             </li>
             <li>
                 <label class="name">优先级</label>
                 <div class="input-warp">
-                    <input class="text" type="text">
+                    <input class="text" v-model="priority" type="text">
                     <p class="tips">从1开始的正整数，数字越小，优先级越高</p>
-                    <!--<p class="tips error">输入错误</p>-->
+                    <p v-if="priority_error" class="tips error">{{priority_error}}</p>
                 </div>
             </li>
             <li>
                 <label class="name">数据量</label>
                 <div class="input-warp">
-                    <input class="text" type="text">
+                    <input class="text" v-model="dataCout" type="text">
+                    <p v-if="dataCount_error" class="tips error">{{dataCount_error}}</p>
                 </div>
             </li>
             <li>
                 <label class="name">运营商</label>
                 <div class="input-warp">
                     <ul class="check-warp">
-                        <li class="active">
+                        <li v-for="item in providers" :class="{'active':inSelect(item.code)}" @click="toggleSelect(item.code)">
                             <i class="icon"></i>
-                            <span>电信</span>
-                        </li>
-                        <li>
-                            <i class="icon"></i>
-                            <span>联通</span>
-                        </li>
-                        <li>
-                            <i class="icon"></i>
-                            <span>移动</span>
+                            <span>{{item.desc}}</span>
                         </li>
                     </ul>
                 </div>
@@ -87,119 +46,36 @@
             <li>
                 <label class="name">地域</label>
                 <div class="input-warp">
-                    <label onclick="payCutover(this)" class="radio-warp radio-active" for="areaAll">
-                        <input type="radio" name="areaAll" class="radio" id="areaAll" value="sendBatch" checked="checked">
-                        <i class="icon"></i>
+                    <label class="radio-warp" :class="{'radio-active':areaType==1}" for="areaAll">
+                        <input type="radio" name="areaAll" class="radio">
+                        <i class="icon" @click="areaType=1"></i>
                         <span class="radioname">全国</span>
                     </label>
-                    <label onclick="payCutover(this)" class="radio-warp" for="areaProvince">
-                        <input type="radio" name="areaProvince" class="radio" id="areaProvince" value="sendSingle">
-                        <i class="icon"></i>
+                    <label class="radio-warp" :class="{'radio-active':areaType==2}" for="areaProvince">
+                        <input type="radio" name="areaProvince" class="radio">
+                        <i class="icon" @click="areaType=2"></i>
                         <span class="radioname"></span>
                         <div class="select-current">
-                            <p>
-                                <span>河北省</span>
-                                <span>石家庄</span>
-                                <i class="icon"></i>
-                            </p>
-                            <p>
-                                <span>河北省</span>
-                                <span>张家口</span>
+                            <p v-for="item in selected_citys">
+                                <span>{{item.province.name}}</span>
+                                <span v-if="item.city.id">{{item.city.name}}</span>
                                 <i class="icon"></i>
                             </p>
                         </div>
-                        <div class="date-warp">
-                            <div class="select-warp ">
-                                <!-- 在div上加上class（select-open）显示出ul列表 -->
-                                <p class="all">
-                                    <span>请选择</span>
-                                </p>
-                                <div class="select-ul">
-                                    <div class="scroll-warp scrollBar">
-                                        <ul>
-                                            <li>北京市</li>
-                                            <li>河北省</li>
-                                            <li>山东省</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="select-warp ">
-                                <!-- 在div上加上class（select-open）显示出ul列表 -->
-                                <p class="all">
-                                    <span>全部</span>
-                                </p>
-                                <div class="select-ul">
-                                    <div class="scroll-warp scrollBar">
-                                        <ul>
-                                            <li>全部</li>
-                                            <li>北京市</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <span class="icon add"></span>
-                        </div>
+                        <areaSelect ref="areaSelect1" @add="addSelectCitys"></areaSelect>
                     </label>
-                    <label onclick="payCutover(this)" class="radio-warp" for="areaShield">
-                        <input type="radio" name="areaShield" class="radio" id="areaShield" value="sendSingle">
-                        <i class="icon"></i>
+                    <label class="radio-warp" :class="{'radio-active':areaType==3}" for="areaShield">
+                        <input type="radio" name="areaShield" class="radio">
+                        <i class="icon" @click="areaType=3"></i>
                         <span class="radioname">屏蔽</span>
-                        <div class="select-current" id="demo1" style="display: none">
-                            <p>
-                                <span>北京市</span>
+                        <div class="select-current">
+                            <p v-for="item in unselected_citys">
+                                <span>{{item.province.name}}</span>
+                                <span v-if="item.city.id">{{item.city.name}}</span>
                                 <i class="icon"></i>
                             </p>
                         </div>
-                        <div class="date-warp" id="demo2">
-                            <div class="select-warp ">
-                                <!-- 在div上加上class（select-open）显示出ul列表 -->
-                                <p class="all">
-                                    <span>请选择</span>
-                                </p>
-                                <div class="select-ul">
-                                    <div class="scroll-warp scrollBar">
-                                        <ul>
-                                            <li>北京市</li>
-                                            <li>河北省</li>
-                                            <li>山东省</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="date-warp" id="demo3" style="display: none">
-                            <div class="select-warp ">
-                                <!-- 在div上加上class（select-open）显示出ul列表 -->
-                                <p class="all">
-                                    <span>请选择</span>
-                                </p>
-                                <div class="select-ul">
-                                    <div class="scroll-warp scrollBar">
-                                        <ul>
-                                            <li>北京市</li>
-                                            <li>河北省</li>
-                                            <li>山东省</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="select-warp ">
-                                <!-- 在div上加上class（select-open）显示出ul列表 -->
-                                <p class="all">
-                                    <span>全部</span>
-                                </p>
-                                <div class="select-ul">
-                                    <div class="scroll-warp scrollBar">
-                                        <ul>
-                                            <li>全部</li>
-                                            <li>北京市</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <span class="icon add"></span>
-                        </div>
+                        <areaSelect ref="areaSelect2" @add="addUnSelectCitys"></areaSelect>
                     </label>
                 </div>
             </li>
@@ -265,15 +141,114 @@
 <script>
     import API from 'src/services/api'
     import mselect from 'components/utils/select'
+    import areaSelect from './area'
     export default {
-        data(){
+        data() {
             return {
                 modelApi: API.models_get,
-                productApi:API.product_list,
+                productApi: API.product_list,
+                customerApi: API.customer_list,
+                projectApi: API.project_list,
+                customerParam: {
+                    id: ''
+                },
+                projectParam: {
+                    project_id: '',
+                    client_id: ''
+                },
+                showProjectSelect: false,
+                priority: '',
+                priority_error: '',
+                dataCout: '',
+                dataCount_error: '',
+                providers: [],
+                selected_providers: [],
+                selected_citys: [],
+                unselected_citys: [],
+                areaType: 1
             }
         },
-        components:{
-            mselect
+        created() {
+            this.$ajax({
+                url: API.provider_list,
+                data: {},
+                success: data => {
+                    if (data.code == 200) {
+                        this.providers = data.data
+                    } else {
+                        this.$toast(data.message)
+                    }
+                }
+            })
+        },
+        methods: {
+            linkCustomer(selected) {
+                this.customerParam.id = selected.id
+                this.$refs.customerSelect.init()
+                if (selected.id == 2) {
+                    this.showProjectSelect = true
+                } else {
+                    this.showProjectSelect = false
+                }
+            },
+            linkProject(selected) {
+                this.projectParam.client_id = selected.id
+                this.projectParam.product_id = 2
+                this.$refs.projectSelect.init()
+            },
+            inSelect(id) {
+                let tag = false
+                this.selected_providers.forEach((item, index) => {
+                    if (item == id) tag = true
+                })
+                return tag
+            },
+            toggleSelect(id) {
+                if (this.inSelect(id)) {
+                    this.selected_providers.forEach((item, index) => {
+                        if (item == id) {
+                            this.selected_providers.splice(index, 1)
+                        }
+                    })
+                } else {
+                    this.selected_providers.push(id)
+                }
+            },
+            addSelectCitys(province, city) {
+                let tag = false
+                for (let i = 0; i < this.selected_citys.length; i++) {
+                    let s = this.selected_citys[i]
+                    if (province.id == s.province.id && city.id == s.city.id) {
+                        tag = true
+                    }
+                }
+                if (!tag) {
+                    this.selected_citys.push({
+                        province: province,
+                        city: city
+                    })
+                }
+            },
+            addUnSelectCitys(province, city) {
+                let tag = false
+                for (let i = 0; i < this.unselected_citys.length; i++) {
+                    let s = this.unselected_citys[i]
+                    if (province.id == s.province.id && city.id == s.city.id) {
+                        tag = true
+                    }
+                }
+                if (!tag) {
+                    this.unselected_citys.push({
+                        province: province,
+                        city: city
+                    })
+                }
+            }
+        },
+        components: {
+            mselect,
+            areaSelect
         }
     }
+
 </script>

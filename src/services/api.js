@@ -27,6 +27,9 @@ export default {
     models_get: API_PRE + '/model/modecategory',
     models_create: API_PRE + '/model/createmodel',
     product_list: API_PRE + '/task/productlist',
+    customer_list: API_PRE + '/task/clientlist',
+    project_list: API_PRE + '/task/projectlist',
     get_model_task: API_PRE + '/task/modeltask',
     get_product_task: API_PRE + '/task/producttask',
+    provider_list:API_PRE + '/task/operatorlist' 
 }
