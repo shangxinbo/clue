@@ -144,9 +144,9 @@
                 providers: [],
                 providers_error: '',
                 selected_providers: [],
-                selected_citys: {},
+                selected_citys: Object.create(null),
                 area_error: '',
-                unselected_citys: {},
+                unselected_citys: Object.create(null),
                 areaType: 1,
                 datepicker: null,
                 dateType: 1,
@@ -295,9 +295,46 @@
                     return false
                 }
 
-                if ((this.areaType == 2 && this.selected_citys.length <= 0) || (this.areaType == 3 && this.unselected_citys.length <= 0)) {
-                    this.area_error = '请选择地域'
-                    return false
+                let yao, unyao
+                if (this.areaType == 2) {
+                    let tag = 0
+                    for (let i in this.selected_citys) {
+                        tag++
+                        let city = []
+                        this.selected_citys[i].forEach(item => {
+                            city.push(item.id)
+                        })
+                        yao.push({
+                            province: i,
+                            city: city
+                        })
+                    }
+                    if (tag == 0) {
+                        this.area_error = '请选择地域'
+                        return false
+                    }
+                    unyao = ''
+                } else if (this.areaType == 3) {
+                    let tag = 0
+                    for (let i in this.unselected_citys) {
+                        tag++
+                        let city = []
+                        this.unselected_citys[i].forEach(item => {
+                            city.push(item.id)
+                        })
+                        unyao.push({
+                            province: i,
+                            city: city
+                        })
+                    }
+                    if (tag == 0) {
+                        this.area_error = '请选择地域'
+                        return false
+                    }
+                    yao = ''
+                } else {
+                    yao = 'all'
+                    unyao = ''
                 }
 
                 let dates = this.datepicker.getSelected()
@@ -333,6 +370,8 @@
                         product_id: this.$refs.productSelect.selected.id,
                         client_id: this.$refs.customerSelect.selected.id,
                         project_id: this.$refs.projectSelect.selected.id,
+                        include_area_id: yao,
+                        delete_area_id: unyao,
                         weights: this.priority,
                         data_num: this.dataCout,
                         operator_id: this.providers,
@@ -340,10 +379,15 @@
                         send_time: sendTime
                     },
                     success: data => {
-
+                        if (data.code == 200) {
+                            this.$toast('创建成功', () => {
+                                this.$router.replace('/task/index/')
+                            })
+                        } else {
+                            this.$toast(data.message)
+                        }
                     }
                 })
-
             }
         },
         components: {
