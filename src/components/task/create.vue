@@ -3,8 +3,8 @@
         <div class="main">
             <div class="title-warp">
                 <div class="tag-nav">
-                    <a href="javascript:void(0);" class="active">创建投放任务</a>
-                    <a href="javascript:void(0);">创建补量任务</a>
+                    <router-link to="/task/create/puton" :class="{active:!tab}">创建投放任务</router-link>
+                    <router-link to="/task/create/replenish" :class="{active:tab}">创建补量任务</router-link>
                 </div>
             </div>
             <div class="data-property task-box">
@@ -42,6 +42,11 @@
             return {
                 model: [],
                 product: []
+            }
+        },
+        computed: {
+            tab() {
+                return this.$route.path == '/task/create/replenish' ? true : false
             }
         },
         created() {

@@ -32,5 +32,7 @@ export default {
     get_model_task: API_PRE + '/task/modeltask',
     get_product_task: API_PRE + '/task/producttask',
     provider_list: API_PRE + '/task/operatorlist',
-    task_create: API_PRE + '/task/createfull'
+    task_create: API_PRE + '/task/createfull',
+    task_uploadfile: API_PRE + '/task/uploadfile',
+    task_create_addition:API_PRE + '/task/createadd'
 }

@@ -1,5 +1,5 @@
 <template>
-    <div class="cutover-task01">
+    <div class="cutover-task01" style="display:block">
         <ul class="data-text">
             <li>
                 <label class="name">选择模型</label>

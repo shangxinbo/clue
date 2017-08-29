@@ -1,54 +1,30 @@
 <template>
-    <div class="cutover-task02">
+    <div class="cutover-task02" style="display:block">
         <ul class="data-text">
             <li>
                 <label class="name">上传文件</label>
                 <div class="input-warp upload-warp">
-                    <input class="text" type="text">
+                    <input class="text" type="text" v-model="filePath" readonly>
                     <button class="btn" type="button">
                         <span>
                             <i class="icon upload"></i>上传</span>
+                        <input type="file" style="
+                            height: 30px;
+                            width: 80px;
+                            opacity:0;
+                            cursor:pointer;
+                            position: absolute;
+                            top: 0;
+                            left: 0;
+                            z-index: 1;
+                        " multiple="false" accept=".txt" @change="selectFile($event)" />
                     </button>
-                </div>
-            </li>
-            <li>
-                <label class="name"></label>
-                <div class="input-warp upload-warp">
-                    <input class="text" type="text">
-                    <img src="" width="18" height="18" alt="上传中" title="上传中">
-                </div>
-            </li>
-            <li>
-                <label class="name"></label>
-                <div class="input-warp upload-warp">
-                    <input class="text" type="text">
-                    <span class="icon succ" style="display: block"></span>
-                    <button class="btn afresh" type="button">
-                        <span>
-                            <i class="icon afresh"></i>重新上传</span>
-                    </button>
+                    <p v-if="file_error" class="tips error">{{file_error}}</p>
                 </div>
             </li>
             <li>
                 <label class="name">选择客户</label>
-                <div class="input-warp">
-                    <div class="select-warp ">
-                        <!-- 在div上加上class（select-open）显示出ul列表 -->
-                        <p class="all">
-                            <span>请选择</span>
-                        </p>
-                        <div class="select-ul">
-                            <div class="scroll-warp scrollBar">
-                                <ul>
-                                    <li>平安</li>
-                                    <li>融之家</li>
-                                    <li>叮当贷</li>
-                                    <li>微盟</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <mselect ref="customerSelect" :api="customerApi" :hideAll="true" :param="customerParam"></mselect>
             </li>
             <li>
                 <label class="name">选择产品</label>
@@ -58,9 +34,83 @@
             </li>
             <li class="li-btn">
                 <div class="input-warp">
-                    <button class="btn confirm" type="button" onclick="getWindow('newSucc','tips-succ');">确认</button>
+                    <button class="btn confirm" type="button" @click="submit">确认</button>
                 </div>
             </li>
         </ul>
     </div>
 </template>
+<script>
+    import API from 'src/services/api'
+    import mselect from 'components/utils/select'
+    export default {
+        data() {
+            return {
+                filePath: '',
+                file: '',
+                file_error: '',
+                customerApi: API.customer_list,
+                customerParam: {
+                    id: 2
+                },
+            }
+        },
+        methods: {
+            selectFile(evt) {
+                let file = evt.target.files[0]
+                if (file.type.indexOf('text/plain') < 0) {
+                    this.file_error = '只支持上传txt文件'
+                    this.filePath = ''
+                    return false
+                } else if (file.size > 1024 * 1024 * 20) {
+                    this.file_error = '文件不能大于20M'
+                    this.filePath = ''
+                    return false
+                } else {
+                    this.file_error = ''
+                    this.file = file
+                    this.filePath = file.name
+                }
+            },
+            submit() {
+                if (!this.file) {
+                    this.file_error = '请上传文件'
+                    return false
+                }
+                let data = new FormData()
+                data.append('file', this.file)
+                this.$ajax({
+                    url: API.task_uploadfile,
+                    data: data,
+                    success: data => {
+                        if (data.code == 200) {
+                            let file_id = data.data.file_id
+                            this.$ajax({
+                                url: API.task_create_addition,
+                                data: {
+                                    file_id: file_id,
+                                    client_id: this.$refs.customerSelect.selected.id
+                                },
+                                success: data => {
+                                    if (data.code == 200) {
+                                        this.$toast('创建成功', () => {
+                                            this.$router.replace('/task/index/')
+                                        })
+                                    } else {
+                                        this.$toast(data.message)
+                                    }
+                                }
+                            })
+                        } else {
+                            this.$toast(data.message)
+                        }
+                    }
+                })
+            }
+        },
+        components: {
+            mselect
+        }
+    }
+
+</script>
