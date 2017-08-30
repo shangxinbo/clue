@@ -22,7 +22,7 @@
                     </ul>
                     <div class="calendar-warp">
                         <span class="name">日期：</span>
-                        <input type="text" class="text date auto-kal" value="2017-08-15">
+                        <datepicker addClass="date text" :init="date" :max="maxDate" @change="selectByDate"></datepicker>
                     </div>
                 </div>
                 <div class="data-table">
@@ -87,8 +87,11 @@
     import pages from 'components/common/pages'
     import mtable from 'components/utils/table'
     import addDialog from './add.vue'
+    import datepicker from 'components/utils/datepicker'
+    import moment from 'moment'
     export default {
         data() {
+            let now = moment().format('YYYY-MM-DD')
             return {
                 modelList: [],
                 navId: '',
@@ -98,13 +101,16 @@
                 totalPage: 1,
                 sum: [],
                 left: '',
-                total: ''
+                total: '',
+                maxDate:now
             }
         },
         watch: {
             $route(newVal, oldVal) {
                 this.nav()
                 this.getList()
+                this.getSum()
+                this.date = ''
             }
         },
         filters: {
@@ -167,7 +173,7 @@
                 })
             },
             getList() {
-                this.currentPage = this.$route.query.page ? this.$route.query.page : ''
+                this.currentPage = this.$route.query.page ? this.$route.query.page : 1
                 this.$ajax({
                     url: API.model_data_list,
                     data: {
@@ -183,12 +189,16 @@
                     }
                 })
             },
+            selectByDate(val){
+                this.date = val
+                this.getSum()
+            },
             search(param) {
                 let query
                 if (!isNaN(param)) {
                     query = Object.assign({}, this.$route.query, { page: param })
                 } else {
-                    query = Object.assign({}, { tunnel: this.$refs.tunnelSelect.selected.id })
+                    query = {}
                 }
                 this.$router.replace({
                     name: this.$route.name,
@@ -199,7 +209,8 @@
         components: {
             pages,
             mtable,
-            addDialog
+            addDialog,
+            datepicker
         }
     }
 
