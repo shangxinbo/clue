@@ -27,7 +27,7 @@
                                 <input class="text" v-model="customer" type="text">
                             </div>
                         </li>
-                        <li>
+                        <li v-show="navId==2">
                             <label class="name">项目名称：</label>
                             <div class="input-warp">
                                 <input class="text" v-model="project" type="text">
@@ -40,10 +40,10 @@
                             </button>
                         </li>
                         <li class="li-download">
-                            <button class="btn" type="button">
+                            <a :href="exportURI" target="blank" class="btn" type="button">
                                 <span>
                                     <i class="icon download"></i>导出报告</span>
-                            </button>
+                            </a>
                         </li>
                     </ul>
                 </form>
@@ -132,6 +132,15 @@
                 this.initList()
             }
         },
+        computed:{
+            exportURI(){
+                let a = `${API.task_status_export}?product_id=${this.navId}&begin_date=${this.startDate}&end_date=${this.endDate}&client_name=${this.customer}`
+                if(this.navId==1){
+                    a = a + `&project_name=${this.project}`
+                }
+                return a
+            }
+        },
         created() {
             this.$ajax({
                 url: API.product_list,
@@ -193,9 +202,11 @@
                     query = Object.assign({}, this.$route.query, {
                         startDate: this.startDate,
                         endDate: this.endDate,
-                        customer: this.customer,
-                        project: this.project
+                        customer: this.customer
                     })
+                    if(this.navId==2){
+                        query.project = this.project
+                    }
                 }
                 this.$router.replace({
                     name: this.$route.name,
