@@ -20,6 +20,7 @@ const data_index = resolve => System.import('components/data/index')
 const data_detail = resolve => System.import('components/data/detail')
 const task_index = resolve => System.import('components/task/index')
 const task_status = resolve => System.import('components/task/status')
+const task_status_detail = resolve => System.import('components/task/status_detail')
 const task_create = resolve => System.import('components/task/create')
 const task_puton_create = resolve => System.import('components/task/views/put')
 const task_replenish_create = resolve => System.import('components/task/views/replenish')
@@ -46,6 +47,7 @@ let mRouter = new Router({
                 { path: '/data/detail/', name: 'data_detail', component: data_detail },
                 { path: '/task/index/', name: 'task_index', component: task_index },
                 { path: '/task/status/', name: 'task_status', component: task_status },
+                { path: '/task/status/detail', name: 'task_status_detail', component: task_status_detail },
                 {
                     path: '/task/create/',
                     component: task_create,

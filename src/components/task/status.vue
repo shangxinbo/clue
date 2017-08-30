@@ -92,6 +92,9 @@
                                 <template v-if="navId==3">
                                     <td>{{item.num}}</td>
                                 </template>
+                                <td>
+                                    <router-link :to="{path:'/task/status/detail',query:{id:item.id,date:item.date,customer:item.client_name}}">查看</router-link>
+                                </td>
                             </tr>
                         </tbody>
                     </table>

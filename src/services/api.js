@@ -42,6 +42,7 @@ export default {
     task_change_status: API_PRE + '/task/changestatus',
     task_edit: API_PRE + '/task/editcommit',
     task_status_list: API_PRE + '/task/taskstatus',
+    task_status_detail: API_PRE + '/task/subtaskdetail',
     get_provinces: API_PRE + '/area/getProvince',
     get_citys: API_PRE + '/area/getCity'
 }
