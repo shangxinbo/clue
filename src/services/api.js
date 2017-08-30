@@ -26,6 +26,8 @@ export default {
     goldlib_user_del: API_PRE + '/smallvault/deletecostomer',
     models_get: API_PRE + '/model/modecategory',
     models_create: API_PRE + '/model/createmodel',
+    model_data_list: API_PRE + '/model/modeldatamanage',
+    model_get_sum: API_PRE + '/model/dataowncount',
     product_list: API_PRE + '/task/productlist',
     customer_list: API_PRE + '/task/clientlist',
     project_list: API_PRE + '/task/projectlist',

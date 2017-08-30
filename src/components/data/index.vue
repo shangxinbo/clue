@@ -17,12 +17,12 @@
                     <ul>
                         <li>
                             <span class="name">总量：</span>
-                            <span class="num">20,170,727</span>
+                            <span class="num">{{total|formatNum}}</span>
                         </li>
                     </ul>
                     <div class="calendar-warp">
                         <span class="name">日期：</span>
-                        <input type="text" class="text date auto-kal" data-kal="mode:'single'" value="2017-08-15">
+                        <input type="text" class="text date auto-kal" value="2017-08-15">
                     </div>
                 </div>
                 <div class="data-table">
@@ -30,31 +30,13 @@
                         <tbody>
                             <tr class="line">
                                 <td>分值</td>
-                                <td>0-0.1</td>
-                                <td>0.1-0.2</td>
-                                <td>0.2-0.3</td>
-                                <td>0.3-0.4</td>
-                                <td>0.4-0.5</td>
-                                <td>0.5-0.6</td>
-                                <td>0.6-0.7</td>
-                                <td>0.7-0.8</td>
-                                <td>0.8-0.9</td>
-                                <td>0.9-1.0</td>
+                                <td v-for="item in sum">{{item.weight}}</td>
                                 <td>总量</td>
                             </tr>
                             <tr>
                                 <td>量级</td>
-                                <td>60</td>
-                                <td>60</td>
-                                <td>60</td>
-                                <td>60</td>
-                                <td>60</td>
-                                <td>60</td>
-                                <td>60</td>
-                                <td>60</td>
-                                <td>60</td>
-                                <td>60</td>
-                                <td>600</td>
+                                <td v-for="item in sum">{{item.cnt}}</td>
+                                <td>{{sumTotal}}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -63,62 +45,38 @@
                     <ul>
                         <li>
                             <span class="name">余量：</span>
-                            <span class="num">200,000</span>
+                            <span class="num">{{left|formatNum}}</span>
                         </li>
                     </ul>
                 </div>
             </div>
             <div class="data-warp">
-                <div class="data-table">
-                    <table>
-                        <tbody>
-                            <tr>
-                                <th>优先级</th>
-                                <th>产品</th>
-                                <th>客户</th>
-                                <th>项目</th>
-                                <th>量</th>
-                                <th>投放日期</th>
-                                <th>操作</th>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>小金库</td>
-                                <td>宜信</td>
-                                <td>I贷</td>
-                                <td>
-                                    <span class="yellow">200,000</span>
-                                </td>
-                                <td>2017-08-10</td>
-                                <td>
-                                    <a href="javascript:void(0);" onclick="getWindow('editAdjust');">调整</a>
-                                </td>
-                            </tr>
-                            <tr class="tr2">
-                                <td>2</td>
-                                <td>小金库</td>
-                                <td>宜信</td>
-                                <td>I贷</td>
-                                <td>
-                                    <span class="yellow">200,000</span>
-                                </td>
-                                <td>2017-08-10</td>
-                                <td>
-                                    <a href="javascript:void(0);" onclick="getWindow('editAdjust');">调整</a>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="page">
-                    <a class="prev disabled" href="javascript:void(0);">上一页</a>
-                    <a href="javascript:void(0);" class="active">1</a>
-                    <a href="javascript:void(0);">2</a>
-                    <a href="javascript:void(0);">3</a>
-                    <span>...</span>
-                    <a href="javascript:void(0);">19</a>
-                    <a class="next" href="javascript:void(0);">下一页</a>
-                </div>
+                <mtable :list="list">
+                    <template scope="props">
+                        <td width="10%" label="优先级">
+                            <span>{{props.item.weights}}</span>
+                        </td>
+                        <td width="10%" label="产品">
+                            <span>{{props.item.product_name}}</span>
+                        </td>
+                        <td width="10%" label="客户">
+                            <span>{{props.item.client_name}}</span>
+                        </td>
+                        <td width="10%" label="项目">
+                            <span>{{props.item.project_name}}</span>
+                        </td>
+                        <td width="10%" label="量">
+                            <span class="yellow">{{props.item.data_num|formatNum}}</span>
+                        </td>
+                        <td width="10%" label="投放日期">
+                            <span>{{props.item.send_time}}</span>
+                        </td>
+                        <td width="10%" label="操作">
+                            <a href="javascript:void(0)">调整</a>
+                        </td>
+                    </template>
+                </mtable>
+                <pages :total="totalPage" :current="currentPage" @jump='search'></pages>
             </div>
         </div>
         <addDialog ref="addDialog"></addDialog>
@@ -126,17 +84,45 @@
 </template>
 <script>
     import API from 'src/services/api'
+    import pages from 'components/common/pages'
+    import mtable from 'components/utils/table'
     import addDialog from './add.vue'
     export default {
         data() {
             return {
                 modelList: [],
                 navId: '',
+                date: '',
+                list: [],
+                currentPage: 1,
+                totalPage: 1,
+                sum: [],
+                left: '',
+                total: ''
             }
         },
         watch: {
             $route(newVal, oldVal) {
                 this.nav()
+                this.getList()
+            }
+        },
+        filters: {
+            formatNum(val) {
+                try {
+                    return val.toString().replace(/\d+?(?=(?:\d{3})+$)/img, "$&,")
+                } catch (e) {
+                    return NaN
+                }
+            }
+        },
+        computed: {
+            sumTotal() {
+                let num = 0
+                this.sum.forEach((item, index) => {
+                    num += item.cnt
+                })
+                return num
             }
         },
         created() {
@@ -147,6 +133,8 @@
                     if (data.code == 200) {
                         this.modelList = data.data
                         this.nav()
+                        this.getList()
+                        this.getSum()
                     } else {
                         this.$toast(data.message)
                     }
@@ -159,9 +147,58 @@
             },
             add() {
                 this.$refs.addDialog.$emit('show')
+            },
+            getSum() {
+                this.$ajax({
+                    url: API.model_get_sum,
+                    data: {
+                        id: this.navId,
+                        date: this.date
+                    },
+                    success: data => {
+                        if (data.code == 200) {
+                            this.sum = JSON.parse(data.data.data_json)
+                            this.left = data.data.left
+                            this.total = data.data.data_count
+                        } else {
+                            this.$toast(data.message)
+                        }
+                    }
+                })
+            },
+            getList() {
+                this.currentPage = this.$route.query.page ? this.$route.query.page : ''
+                this.$ajax({
+                    url: API.model_data_list,
+                    data: {
+                        id: this.navId
+                    },
+                    success: data => {
+                        if (data.code == 200) {
+                            this.list = data.data.data
+                            this.totalPage = Math.ceil(data.data.total / data.data.per_page)
+                        } else {
+                            this.$toast(data.message)
+                        }
+                    }
+                })
+            },
+            search(param) {
+                let query
+                if (!isNaN(param)) {
+                    query = Object.assign({}, this.$route.query, { page: param })
+                } else {
+                    query = Object.assign({}, { tunnel: this.$refs.tunnelSelect.selected.id })
+                }
+                this.$router.replace({
+                    name: this.$route.name,
+                    query: query
+                })
             }
         },
-        components:{
+        components: {
+            pages,
+            mtable,
             addDialog
         }
     }
