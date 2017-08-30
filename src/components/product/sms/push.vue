@@ -11,14 +11,6 @@
                         <span>{{client}}</span>
                     </li>
                     <li>
-                        <label class="name">项目：</label>
-                        <span>{{project}}</span>
-                    </li>
-                    <li>
-                        <label class="name">批次：</label>
-                        <span>{{batch}}</span>
-                    </li>
-                    <li>
                         <label class="name">数据量：</label>
                         <span class="yellow">{{dataNum}}</span>
                     </li>
@@ -90,8 +82,6 @@
             return {
                 id: '',
                 client: '',
-                project: '',
-                batch: '',
                 dataNum: '',
                 pushTime: '',
                 templateApi: API.sms_template_select,
@@ -104,8 +94,6 @@
             }
         },
         created() {
-            this.project = this.$route.query.project
-            this.batch = this.$route.query.batch
             this.dataNum = this.$route.query.dataNum
             this.id = this.$route.query.id
 
@@ -123,7 +111,6 @@
                     id: this.id
                 },
                 success: data => {
-                    
                     this.client = data.data.data_task.customer_name
                     this.pushTime = data.data.data_task.send_date
                     this.subtasked = data.data.sms_subTask

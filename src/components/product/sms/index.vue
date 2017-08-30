@@ -43,7 +43,7 @@
                             <span :class="{yellow:props.item.today_status==2}">{{props.item.today_status_desc}}</span>
                         </td>
                         <td width="10%" label="操作">
-                            <a href="产品管理-短信营销-推送短信.html">推送</a>
+                            <router-link :to="{path:'/product/sms/push/',query:{id:props.item.id,dataNum:props.item.send_num}}">{{props.item.today_status==2?'重新推送':'推送'}}</router-link>
                         </td>
                     </template>
                 </mtable>
@@ -82,7 +82,7 @@
             init() {
                 this.currentPage = this.$route.query.page ? this.$route.query.page : 1
                 this.status = this.$route.query.status != null ? this.$route.query.status : ''
-                this.type = this.$route.query.type!= null ? this.$route.query.type : ''
+                this.type = this.$route.query.type != null ? this.$route.query.type : ''
                 this.getData()
             },
             getData() {
