@@ -10,7 +10,7 @@ module.exports = function (req, res) {
         "list|10": [
             {
                 "id": '@natural',
-                "status": '@natural(0,2)',
+                "status": '@natural(0,1)',
                 "status_desc": "@cname",
                 "client_name": '@ctitle',
                 "project_name": '@ctitle',

@@ -50,17 +50,18 @@
                             <span>{{props.item.send_date}}</span>
                         </td>
                         <td width="10%" label="投放量">
-                            <span>{{props.item.data_num}}</span>
+                            <span class="yellow">{{props.item.data_num|formatNum}}</span>
                         </td>
                         <td width="10%" label="操作">
-                            <a href="javascript:void(0);">编辑</a>
-                            <a href="#">停止</a>
+                            <a href="javascript:void(0);" @click="edit(props.item.id,props.item.client_name,props.item.project_name,props.item.data_num)">编辑</a>
+                            <a href="javascript:void(0)" @click="changeStatus(props.item.id,props.item.status)">{{props.item.status?'停止':'开始'}}</a>
                         </td>
                     </template>
                 </mtable>
                 <pages :total="totalPage" :current="currentPage" @jump='search'></pages>
             </div>
         </div>
+        <editDialog ref="editDialog"></editDialog>
     </div>
 </template>
 <script>
@@ -68,6 +69,7 @@
     import mselect from 'components/utils/select'
     import mtable from 'components/utils/table'
     import pages from 'components/common/pages'
+    import editDialog from './edit'
     export default {
         data() {
             return {
@@ -79,6 +81,15 @@
                 totalPage: 1,
                 customer: '',
                 list: []
+            }
+        },
+        filters: {
+            formatNum(val) {
+                try {
+                    return val.toString().replace(/\d+?(?=(?:\d{3})+$)/img, "$&,")
+                } catch (e) {
+                    return NaN
+                }
             }
         },
         watch: {
@@ -143,12 +154,34 @@
                     name: this.$route.name,
                     query: query
                 })
+            },
+            changeStatus(id, status) {
+                this.$confirm(`是否${status ? '停止' : '开始'}该任务`, () => {
+                    this.$ajax({
+                        url: API.task_change_status,
+                        data: {
+                            task_id: id,
+                            status: status == 1 ? 0 : 1
+                        },
+                        success: data => {
+                            if (data.code == 200) {
+                                window.location.reload()
+                            } else {
+                                this.$toast(data.message)
+                            }
+                        }
+                    })
+                })
+            },
+            edit(id, customer, project, count) {
+                this.$refs.editDialog.$emit('show', id, customer, project, count)
             }
         },
         components: {
             mselect,
             pages,
-            mtable
+            mtable,
+            editDialog
         }
     }
 
