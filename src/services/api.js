@@ -38,6 +38,7 @@ export default {
     task_create_addition: API_PRE + '/task/createadd',
     task_change_status: API_PRE + '/task/changestatus',
     task_edit: API_PRE + '/task/editcommit',
+    task_status_list: API_PRE + '/task/taskstatus',
     get_provinces: API_PRE + '/area/getProvince',
     get_citys: API_PRE + '/area/getCity'
 }

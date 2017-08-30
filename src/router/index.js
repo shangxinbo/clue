@@ -43,7 +43,7 @@ let mRouter = new Router({
                 { path: '/product/goldlib/user/', name: 'product_goldlib_user_list', component: product_goldlib_user_list },
                 { path: '/data/index/', name: 'data_index', component: data_index },
                 { path: '/task/index/', name: 'task_index', component: task_index },
-                { path: '/task/status/', name: 'task_status', component: task_status },
+                { path: '/task/status/index/', name: 'task_status', component: task_status },
                 {
                     path: '/task/create/',
                     component: task_create,

@@ -1,4 +1,4 @@
- {
+{
   "name": "clue",
   "version": "1.0.0",
   "description": "A Vue.js project",
@@ -15,11 +15,12 @@
     "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs"
   },
   "dependencies": {
+    "axios": "^0.16.2",
+    "babel-polyfill": "^6.23.0",
+    "moment": "^2.18.1",
     "vue": "^2.4.1",
-    "vuex":"^2.1.2",
-    "axios":"^0.16.2",
     "vue-router": "^2.3.1",
-    "babel-polyfill": "^6.23.0"
+    "vuex": "^2.1.2"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
@@ -61,7 +62,7 @@
     "karma-webpack": "^2.0.2",
     "lolex": "^2.0.0",
     "mocha": "^3.2.0",
-    "mockjs":"^1.0.1-beta3",
+    "mockjs": "^1.0.1-beta3",
     "chai": "^4.1.0",
     "sinon": "^2.3.8",
     "sinon-chai": "^2.8.0",

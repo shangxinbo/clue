@@ -433,21 +433,21 @@
             weeks: {
                 type: Array,
                 default() {
-                    return this.$options.propsData.sundayFirst ? ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'] : ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su']
+                    return this.$options.propsData.sundayFirst ? [ '日','一', '二', '三', '四', '五', '六'] : ['一', '二', '三', '四', '五', '六', '日']
                 }
             },
             months: {
                 type: Array,
                 default() {
-                    return ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+                    return ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月']
                 }
             },
             buttons: {
                 type: Object,
                 default() {
                     return {
-                        ok: 'OK',
-                        cancel: 'Cancel'
+                        ok: '确认',
+                        cancel: '取消'
                     }
                 }
             },
