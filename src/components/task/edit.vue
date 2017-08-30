@@ -22,6 +22,7 @@
                     <label>投放量</label>
                     <div class="input-warp">
                         <input class="text" type="text" v-model="count">
+                        <p v-if="count_error" class="tips error">{{count_error}}</p>
                     </div>
                 </li>
                 <li class="li-radio">
@@ -71,9 +72,10 @@
                 customer: '',
                 project: '',
                 count: '',
+                count_error: '',
                 style: 'none',
                 dateType: 1,
-                datapicker:null,
+                datapicker: null,
                 dateWeek: [
                     { id: 1, name: '周一', checked: false },
                     { id: 2, name: '周二', checked: false },
@@ -100,26 +102,61 @@
                 this.$store.commit('HIDE_LAYER')
             },
             sure() {
-                if (this.name) {
-                    let api = this.id ? API.sms_customer_edit : API.sms_customer_add
-                    this.$ajax({
-                        url: api,
-                        data: {
-                            id: this.id,
-                            costomer_name: this.name
-                        },
-                        success: data => {
-                            this.close()
-                            if (data.code == 200) {
-                                this.$toast(`${this.id ? '编辑成功' : '创建成功'}`, () => {
-                                    window.location.reload()
-                                })
-                            } else {
-                                this.$toast(data.message)
-                            }
+                if (!this.count) {
+                    this.count_error = '请填写数据量'
+                    return false
+                } else {
+                    let reg = /^[1-9]\d*$/
+                    if (!reg.test(this.count)) {
+                        this.count_error = '数据量格式不对'
+                        return false
+                    }
+                }
+
+                let dates = this.datepicker.getSelected()
+                let sendTime = ''
+                if (this.dateType == 2) {
+                    let tag = false
+                    this.dateWeek.forEach((item, index) => {
+                        if (item.checked) tag = true
+                    })
+                    if (!tag) {
+                        this.date_error = '请选择日期'
+                        return false
+                    }
+                    sendTime = []
+                    this.dateWeek.forEeach((item, index) => {
+                        if (item.checked) {
+                            sendTime.push(item.id)
                         }
                     })
+                } else if (this.dateType == 3) {
+                    if (!dates) {
+                        this.date_error = '请选择日期'
+                        return false
+                    }
+                    sendTime = dates.split(',')
                 }
+
+                this.$ajax({
+                    url: API.task_edit,
+                    data: {
+                        id: this.id,
+                        data_num: this.count,
+                        send_type: this.dateType,
+                        send_time: sendTime
+                    },
+                    success: data => {
+                        this.close()
+                        if (data.code == 200) {
+                            this.$toast('编辑成功', () => {
+                                window.location.reload()
+                            })
+                        } else {
+                            this.$toast(data.message)
+                        }
+                    }
+                })
             }
         },
         created() {
