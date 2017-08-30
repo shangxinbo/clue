@@ -3,7 +3,7 @@
         <div class="main">
             <div class="title-warp">
                 <div class="tag-nav">
-                    <router-link v-for="(item,index) in productList" :to="{path:'/task/status/index',query:{id:index}}" :key="index" :class="{'active':navId==index}">{{item}}</router-link>
+                    <router-link v-for="(item,index) in productList" :to="{path:'/task/status',query:{id:index}}" :key="index" :class="{'active':navId==index}">{{item}}</router-link>
                 </div>
             </div>
             <div class="data-property">

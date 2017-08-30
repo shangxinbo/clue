@@ -45,7 +45,7 @@ let mRouter = new Router({
                 { path: '/data/index/', name: 'data_index', component: data_index },
                 { path: '/data/detail/', name: 'data_detail', component: data_detail },
                 { path: '/task/index/', name: 'task_index', component: task_index },
-                { path: '/task/status/index/', name: 'task_status', component: task_status },
+                { path: '/task/status/', name: 'task_status', component: task_status },
                 {
                     path: '/task/create/',
                     component: task_create,
@@ -55,6 +55,7 @@ let mRouter = new Router({
                         { path: '/task/create', redirect: '/task/create/puton' }
                     ]
                 },
+                { path: '*', redirect: '/data/index/' }
             ]
         },
         { path: '/error*', name: 'error', component: error },
