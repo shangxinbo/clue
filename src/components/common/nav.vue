@@ -33,10 +33,10 @@
                 </ul>
             </li>
             <li :class="{current:path.startsWith('/product'),active:path.startsWith('/product/index')}">
-                <a href="产品管理.html">
+                <router-link to="/product/index">
                     <span>
                         <i class="icon icon03"></i>产品管理</span>
-                </a>
+                </router-link>
                 <ul>
                     <li :class="{active:path.startsWith('/product/sms/index')}">
                         <router-link to="/product/sms/index/">

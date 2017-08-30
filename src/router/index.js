@@ -5,6 +5,7 @@ Vue.use(Router)
 
 const layout = resolve => System.import('components/common/layout.vue')
 const error = resolve => System.import('components/common/error.vue')
+const product_index = resolve => System.import('components/product/index')
 const product_sms_template_list = resolve => System.import('components/product/sms/template/index')
 const product_sms_template_edit = resolve => System.import('components/product/sms/template/edit')
 const product_sms_index = resolve => System.import('components/product/sms/index')
@@ -31,6 +32,7 @@ let mRouter = new Router({
             path: '/',
             component: layout,
             children: [
+                { path: '/product/index/', name: 'product_index', component: product_index },
                 { path: '/product/sms/template/list', name: 'product_sms_template_list', component: product_sms_template_list },
                 { path: '/product/sms/template/add', name: 'product_sms_template_add', component: product_sms_template_edit },
                 { path: '/product/sms/template/edit/:id', name: 'product_sms_template_edit', component: product_sms_template_edit },
