@@ -11,9 +11,9 @@ export default {
     sms_template_select: API_PRE + '/sms/template_select',
     task_save: API_PRE + '/sms/task_save',
     tast_detail: API_PRE + '/sms/task_info',
-    sms_index_list:API_PRE + '/task/messagelist',
-    sms_index_status:API_PRE + '/task/messagestatuslist',
-    sms_type_list:API_PRE + '/task/messagetasktypelist',
+    sms_index_list: API_PRE + '/task/messagelist',
+    sms_index_status: API_PRE + '/task/messagestatuslist',
+    sms_type_list: API_PRE + '/task/messagetasktypelist',
     sms_tunnel_list: API_PRE + '/sms/channel_list',
     sms_customer_list: API_PRE + '/costomer/costomerlist',
     sms_customer_add: API_PRE + '/costomer/createcostomer',
@@ -47,5 +47,7 @@ export default {
     task_status_list: API_PRE + '/task/taskstatus',
     task_status_detail: API_PRE + '/task/subtaskdetail',
     get_provinces: API_PRE + '/area/getProvince',
-    get_citys: API_PRE + '/area/getCity'
+    get_citys: API_PRE + '/area/getCity',
+    product_index: API_PRE + '/task/productmanage',
+    create_product: API_PRE + '/product/createproduct'
 }
