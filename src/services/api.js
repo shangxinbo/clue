@@ -47,6 +47,7 @@ export default {
     task_status_list: API_PRE + '/task/taskstatus',
     task_status_detail: API_PRE + '/task/subtaskdetail',
     task_sub_status_score: API_PRE + '/task/subtaskscore',
+    task_status_export: API_PRE + '/task/download',
     get_provinces: API_PRE + '/area/getProvince',
     get_citys: API_PRE + '/area/getCity',
     product_index: API_PRE + '/task/productmanage',
