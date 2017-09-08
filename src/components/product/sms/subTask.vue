@@ -5,11 +5,11 @@
         <ul class="data-text">
             <li>
                 <label class="name">短信模板</label>
-                <mselect ref="templateSelect" :api="templateApi" :hideAll="true" @change="changeSelected"></mselect>
+                <mselect ref="templateSelect" :initlist="templateList" :hideAll="true" @change="changeSelected"></mselect>
             </li>
             <li>
                 <label class="name">短信渠道</label>
-                <mselect ref="tunnelSelect" :api="tunnelApi" @change="changeTunnel" :hideAll="true"></mselect>
+                <mselect ref="tunnelSelect" :api="tunnelApi" :hideAll="true" @change="changeTunnel"></mselect>
             </li>
             <li>
                 <label class="name">数据量占比</label>
@@ -35,7 +35,6 @@
         data() {
             return {
                 tunnelApi: API.tunnel_select_list,
-                templateApi: API.sms_template_select,
                 content: '',
                 selected: '',
                 tunnel: '',
@@ -43,7 +42,7 @@
             }
         },
         watch: {
-            templateList() {
+            templateList(val) {
                 this.changeView()
             },
             selected(newVal, oldVal) {

@@ -14,7 +14,7 @@
                         <label class="name">数据量：</label>
                         <span class="yellow">{{dataNum}}</span>
                     </li>
-                    <li class="num">
+                    <li class="num" v-if="pushTime">
                         <label class="name">发送时间：</label>
                         <span>{{pushTime}}</span>
                     </li>
@@ -23,7 +23,8 @@
             <div class="data-property task-box">
                 <form>
                     <subTasked ref="subTasked" v-for="(item,key) in subtasked" :key="item.index" :index="key" :data="item" :templateList="templateList"></subTasked>
-                    <subTask ref="subTask" v-for="(item,key) in task" :key="item.index" :index="subtasked.length + key" :templateList="templateList" @del="delSub(item.index)"></subTask>
+                    <subTask ref="subTask" v-for="(item,key) in task" :key="item.index" :index="subtasked.length + key" :templateList="templateList"
+                        @del="delSub(item.index)"></subTask>
                     <div class="task-push">
                         <div class="add-model">
                             <a href="javasript:void(0)" class="btn add" @click="addSubTask">
@@ -86,7 +87,7 @@
                 pushTime: '',
                 templateApi: API.sms_template_select,
                 task: [],
-                subtasked:[],
+                subtasked: [],
                 taskNum: 0,
                 templateList: [],
                 timeList: timeList,
@@ -98,24 +99,33 @@
             this.id = this.$route.query.id
 
             this.$ajax({
-                url: this.templateApi,
-                data: {},
-                success: data => {
-                    this.templateList = data.data
-                }
-            })
-
-            this.$ajax({
                 url: API.tast_detail,
                 data: {
-                    id: this.id
+                    task_id: this.id
                 },
                 success: data => {
-                    this.client = data.data.data_task.customer_name
-                    this.pushTime = data.data.data_task.send_date
-                    this.subtasked = data.data.sms_subTask
-                    if(!data.data.sms_subTask.length){
-                        this.task.push({ index: '0'})
+                    if (data.code == 200) {
+                        this.client = data.data.data_task.costomer_name
+                        this.pushTime = data.data.data_task.send_date
+                        this.subtasked = data.data.sms_subTask
+                        if (!data.data.sms_subTask.length) {
+                            this.task.push({ index: '0' })
+                        }
+                        this.$ajax({
+                            url: this.templateApi,
+                            data: {
+                                client_id: data.data.data_task.client_id
+                            },
+                            success: data => {
+                                if (data.code == 200) {
+                                    this.templateList = data.data
+                                } else {
+                                    this.$toast(data.message)
+                                }
+                            }
+                        })
+                    } else {
+                        this.$toast(data.message)
                     }
                 }
             })
@@ -137,32 +147,37 @@
                 let tasked = this.$refs.subTasked
                 let arr = []
                 let canSubmit = true
-                tasked.forEach((item,index)=>{
-                    if(parseInt(item.num)){
-                        arr.push({
-                            id:item.data.id,
-                            template_id:item.data.template_id,
-                            flag:item.data.flag,
-                            channel:item.data.channel,
-                            num:parseInt(item.num)
-                        })
-                    }else{
-                        canSubmit = false
-                    }
-                })
-                task.forEach((item, index) => {
-                    if (parseInt(item.num)) {
-                        arr.push({
-                            id: '',
-                            template_id: item.selected.id,
-                            flag: item.tunnel.id,
-                            channel: item.tunnel.name,
-                            num: parseInt(item.num)
-                        })
-                    } else {
-                        canSubmit = false
-                    }
-                })
+                if (tasked) {
+                    tasked.forEach((item, index) => {
+                        if (parseInt(item.num)) {
+                            arr.push({
+                                id: item.data.id,
+                                template_id: item.data.template_id,
+                                flag: item.data.flag,
+                                channel: item.data.channel,
+                                num: parseInt(item.num)
+                            })
+                        } else {
+                            canSubmit = false
+                        }
+                    })
+                }
+                if (task) {
+                    task.forEach((item, index) => {
+                        if (parseInt(item.num)) {
+                            arr.push({
+                                id: '',
+                                template_id: item.selected.id,
+                                flag: item.tunnel.id,
+                                channel: item.tunnel.name,
+                                num: parseInt(item.num)
+                            })
+                        } else {
+                            canSubmit = false
+                        }
+                    })
+                }
+
                 if (canSubmit) {
                     this.$ajax({
                         url: API.task_save,
@@ -174,7 +189,13 @@
                             task: arr
                         },
                         success: data => {
-                            console.log(123)
+                            if(data.code==200){
+                                this.$toast('已经加入推送队列',()=>{
+                                    this.$router.replace('/')
+                                })
+                            }else{
+                                this.$toast(data.message)
+                            }
                         }
                     })
                 } else {

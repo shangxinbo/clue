@@ -32,6 +32,9 @@
             },
             name(newVal, oldVal) {
                 this.choose('', newVal)
+            },
+            initlist(newVal,oldVal){
+                this.init()
             }
         },
         created() {
@@ -95,7 +98,6 @@
             },
             init(callback) {
                 if (this.initlist) {
-
                     this.list = this.initlist  //保证initlist 是合规的
                     this.choose(this.id, this.name)
 

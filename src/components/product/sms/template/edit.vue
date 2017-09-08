@@ -90,7 +90,8 @@
                 signApi: API.sign_select_list,
                 signParam: {},
                 signId: '',
-                sign: ''
+                sign: '',
+                repeatSubmit:false
             }
         },
         computed: {
@@ -178,11 +179,15 @@
                 }
                 obj.content = this.content
                 obj.url = this.url
+                
+                if(this.repeatSubmit) return false
+                this.repeatSubmit = true
 
                 this.$ajax({
                     url: API.sms_template_save,
                     data: obj,
                     success: data => {
+                        this.repeatSubmit = false
                         if (data.code == 200) {
                             this.$toast(`${this.edit ? '编辑' : '新建'}成功`, () => {
                                 this.$router.replace('/product/sms/template/list')
