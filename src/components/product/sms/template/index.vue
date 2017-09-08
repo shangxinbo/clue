@@ -112,13 +112,15 @@
             del(id, name) {
                 this.$confirm(`确定要删除此${name}`, () => {
                     this.$ajax({
-                        url: API.sms_customer_del,
+                        url: API.sms_template_del,
                         data: {
                             id: id
                         },
                         success: data => {
                             if (data.code == 200) {
-                                this.init()
+                                this.$toast('删除成功',()=>{
+                                    this.init()
+                                })
                             } else {
                                 this.$toast(data.message)
                             }
