@@ -38,7 +38,7 @@
                         <i class="icon icon03"></i>产品管理</span>
                 </router-link>
                 <ul>
-                    <li :class="{active:path.startsWith('/product/sms/index')}">
+                    <li :class="{active:path.startsWith('/product/sms/index')||path.startsWith('/product/sms/push')}">
                         <router-link to="/product/sms/index/">
                             <span>短信营销</span>
                         </router-link>
