@@ -193,7 +193,7 @@
                         success: data => {
                             if (data.code == 200) {
                                 this.$toast('已经加入推送队列', () => {
-                                    this.$router.replace('/')
+                                    this.$router.replace('/product/sms/index')
                                 })
                             } else {
                                 this.$toast(data.message)
