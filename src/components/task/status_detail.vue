@@ -30,10 +30,11 @@
                             </tr>
                             <tr>
                                 <td>点击/回复量</td>
-                                <td v-for="item in score">{{item.click||item.reply}}</td>
+                                <td v-for="item in score">{{item.click||item.reply||0}}</td>
                             </tr>
                         </tbody>
                     </table>
+                    <p class="no-data" v-else>暂无数据</p>
                 </div>
             </div>
             <div class="data-warp">
