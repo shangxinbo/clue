@@ -181,7 +181,7 @@
                     data: {
                         page: this.currentPage,
                         nums: 10,
-                        product: this.navId,
+                        product_id: this.navId,
                         begin_date: this.startDate,
                         end_date: this.endDate,
                         client_name: this.customer,
@@ -189,7 +189,7 @@
                     },
                     success: data => {
                         if (data.code == 200) {
-                            this.list = data.data.list
+                            this.list = data.data.list || []
                             this.totalPage = Math.ceil(data.data.page.total / 10)
                         } else {
                             this.$toast(data.message)

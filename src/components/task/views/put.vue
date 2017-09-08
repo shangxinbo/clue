@@ -144,9 +144,9 @@
                 providers: [],
                 providers_error: '',
                 selected_providers: [],
-                selected_citys: Object.create(null),
+                selected_citys: {},
                 area_error: '',
-                unselected_citys: Object.create(null),
+                unselected_citys: {},
                 areaType: 1,
                 datepicker: null,
                 dateType: 1,
@@ -217,6 +217,7 @@
                 }
             },
             addSelectCitys(province, city) {
+                console.log(this.selected_citys)
                 if (this.selected_citys.hasOwnProperty(province)) {
                     if (this.selected_citys[province].length > 0) {
                         if (city.id) {
@@ -295,7 +296,7 @@
                     return false
                 }
 
-                let yao, unyao
+                let yao = [], unyao = []
                 if (this.areaType == 2) {
                     let tag = 0
                     for (let i in this.selected_citys) {
@@ -374,7 +375,7 @@
                         delete_area_id: unyao,
                         weights: this.priority,
                         data_num: this.dataCout,
-                        operator_id: this.providers,
+                        operator_id: this.selected_providers.join(','),
                         send_type: parseInt(this.dateType) - 1,
                         send_time: sendTime
                     },
