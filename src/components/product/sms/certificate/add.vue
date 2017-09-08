@@ -87,7 +87,7 @@
                 }
                 let data = new FormData()
                 data.append('qualification_id', this.$refs.certificateSelect.selected.id)
-                data.append('customer_id', this.$refs.customerSelect.selected.id)
+                data.append('costomer_id', this.$refs.customerSelect.selected.id)
                 data.append('qualification_path', this.file)
                 this.$ajax({
                     url: API.sms_certificate_add,

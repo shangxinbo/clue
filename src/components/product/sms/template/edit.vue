@@ -155,7 +155,7 @@
                     obj = {
                         name: this.name,
                         client_id: this.$refs.customerSelect.selected.id,
-                        sign: this.$refs.signSelect.selected.id
+                        sign: this.sign
                     }
                 }
 
