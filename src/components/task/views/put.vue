@@ -188,9 +188,9 @@
                 this.customerParam.product_id = selected.id
                 this.$refs.customerSelect.init()
                 if (selected.id == 2) {
-                    this.showProjectSelect = true
-                } else {
                     this.showProjectSelect = false
+                } else {
+                    this.showProjectSelect = true
                 }
             },
             linkProject(selected) {
