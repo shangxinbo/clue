@@ -91,7 +91,8 @@
                 taskNum: 0,
                 templateList: [],
                 timeList: timeList,
-                type: 0
+                type: 0,
+                sms_task_id: ''
             }
         },
         created() {
@@ -108,6 +109,8 @@
                         this.client = data.data.data_task.costomer_name
                         this.pushTime = data.data.data_task.send_date
                         this.subtasked = data.data.sms_subTask
+                        this.type = data.data.sms_task.status == 1 ? 0 : 1
+                        this.sms_task_id = data.data.sms_task.id
                         if (!data.data.sms_subTask.length) {
                             this.task.push({ index: '0' })
                         }
@@ -187,7 +190,7 @@
                             task_id: this.id,
                             status: this.type ? 2 : 1,
                             time: this.$refs.timeSelect.selected.id,
-                            sms_task_id: '',
+                            sms_task_id: this.sms_task_id,
                             task: arr
                         },
                         success: data => {

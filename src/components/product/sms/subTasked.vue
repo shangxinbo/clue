@@ -53,8 +53,8 @@
             return {
                 template: '',
                 content: '',
-                track: 1,
-                num: this.data.send_num
+                track: this.data.style,
+                num: this.data.send_percent,
             }
         },
         watch: {
