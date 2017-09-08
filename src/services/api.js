@@ -32,6 +32,7 @@ export default {
     model_data_list: API_PRE + '/model/modeldatamanage',
     model_get_sum: API_PRE + '/model/dataowncount',
     model_detail: API_PRE + '/model/modeldetail',
+    model_change_weight: API_PRE + '/model/changeweights',
     product_list: API_PRE + '/task/productlist',
     customer_list: API_PRE + '/task/clientlist',
     project_list: API_PRE + '/task/projectlist',

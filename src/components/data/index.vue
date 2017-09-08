@@ -73,7 +73,7 @@
                             <span>{{props.item.send_time}}</span>
                         </td>
                         <td width="10%" label="操作">
-                            <a href="javascript:void(0)" @click="change(props.item.id,proxy.item.product_name,propps.item.weights)">调整</a>
+                            <a href="javascript:void(0)" @click="change(props.item.id,props.item.product_name,props.item.client_name,props.item.weights,props.item.data_num)">调整</a>
                         </td>
                     </template>
                 </mtable>
@@ -81,13 +81,15 @@
             </div>
         </div>
         <addDialog ref="addDialog"></addDialog>
+        <changeDialog ref="changeDialog"></changeDialog>
     </div>
 </template>
 <script>
     import API from 'src/services/api'
     import pages from 'components/common/pages'
     import mtable from 'components/utils/table'
-    import addDialog from './add.vue'
+    import addDialog from './add'
+    import changeDialog from './change'
     import datepicker from 'components/utils/datepicker'
     import moment from 'moment'
     export default {
@@ -202,8 +204,8 @@
                 this.date = val
                 this.getSum()
             },
-            change(id, name, weight) {
-                //TODO 
+            change(id, product, customer, weight, count) {
+                this.$refs.changeDialog.$emit('show', id, product, customer, weight, count, this.navId)
             },
             search(param) {
                 let query
@@ -222,6 +224,7 @@
             pages,
             mtable,
             addDialog,
+            changeDialog,
             datepicker
         }
     }
