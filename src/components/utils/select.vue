@@ -71,11 +71,11 @@
             choose(id, name) {
                 let finded = false
                 this.list.find((value, index) => {
-                    if (id != '' && id == value.id) {
+                    if (id !== '' && id == value.id) {
                         this.selected = value
                         finded = true
                     }
-                    if (name != '' && name == value.name) {
+                    if (name !== '' && name == value.name) {
                         this.selected = value
                         finded = true
                     }
