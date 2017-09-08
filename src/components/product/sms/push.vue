@@ -155,7 +155,8 @@
                                 template_id: item.data.template_id,
                                 flag: item.data.flag,
                                 channel: item.data.channel,
-                                num: parseInt(item.num)
+                                percent: parseInt(item.num),
+                                style: item.track
                             })
                         } else {
                             canSubmit = false
@@ -170,7 +171,8 @@
                                 template_id: item.selected.id,
                                 flag: item.tunnel.id,
                                 channel: item.tunnel.name,
-                                num: parseInt(item.num)
+                                percent: parseInt(item.num),
+                                style: item.track
                             })
                         } else {
                             canSubmit = false
@@ -189,11 +191,11 @@
                             task: arr
                         },
                         success: data => {
-                            if(data.code==200){
-                                this.$toast('已经加入推送队列',()=>{
+                            if (data.code == 200) {
+                                this.$toast('已经加入推送队列', () => {
                                     this.$router.replace('/')
                                 })
-                            }else{
+                            } else {
                                 this.$toast(data.message)
                             }
                         }

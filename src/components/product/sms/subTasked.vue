@@ -21,6 +21,21 @@
                     <span>%</span>
                 </div>
             </li>
+            <li class="li-date">
+                <label class="name">追踪手机号</label>
+                <div class="input-warp radio-inline">
+                    <label class="radio-warp" :class="{'radio-active':track==1}" for="numYes">
+                        <input type="radio" name="numYes" class="radio">
+                        <i class="icon" @click="track=1"></i>
+                        <span class="radioname">是</span>
+                    </label>
+                    <label class="radio-warp" :class="{'radio-active':track==0}" for="numNo">
+                        <input type="radio" name="numNo" class="radio">
+                        <i class="icon" @click="track=0"></i>
+                        <span class="radioname">否</span>
+                    </label>
+                </div>
+            </li>
         </ul>
         <div class="sms-phone">
             <div class="inrr">
@@ -38,6 +53,7 @@
             return {
                 template: '',
                 content: '',
+                track: 1,
                 num: this.data.send_num
             }
         },
