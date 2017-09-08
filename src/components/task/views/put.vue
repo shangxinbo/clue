@@ -130,10 +130,10 @@
                 customerApi: API.customer_list,
                 projectApi: API.project_list,
                 customerParam: {
-                    id: ''
+                    product_id: ''
                 },
                 projectParam: {
-                    project_id: '',
+                    product_id: '',
                     client_id: ''
                 },
                 showProjectSelect: false,
@@ -185,7 +185,7 @@
         },
         methods: {
             linkCustomer(selected) {
-                this.customerParam.id = selected.id
+                this.customerParam.product_id = selected.id
                 this.$refs.customerSelect.init()
                 if (selected.id == 2) {
                     this.showProjectSelect = true

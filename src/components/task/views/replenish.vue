@@ -51,7 +51,7 @@
                 file_error: '',
                 customerApi: API.customer_list,
                 customerParam: {
-                    id: 2
+                    product_id: 2
                 },
             }
         },
@@ -83,12 +83,13 @@
                     url: API.task_uploadfile,
                     data: data,
                     success: data => {
-                        if (data.code == 200) {
-                            let file_id = data.data.file_id
+                        let mdata = JSON.parse(data.replace('#',''))
+                        if (mdata.code == 200) {
                             this.$ajax({
                                 url: API.task_create_addition,
                                 data: {
-                                    file_id: file_id,
+                                    file_task_id: mdata.data.file_task_id,
+                                    file_data_id: mdata.data.file_data_id,
                                     client_id: this.$refs.customerSelect.selected.id
                                 },
                                 success: data => {

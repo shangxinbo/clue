@@ -19,7 +19,7 @@
                     </li>
                 </ul>
             </li>
-            <li :class="{current:path.startsWith('/task'),active:path.startsWith('/task/index')}">
+            <li :class="{current:path.startsWith('/task'),active:path.startsWith('/task/index')||path.startsWith('/task/create')}">
                 <router-link to="/task/index/">
                     <span>
                         <i class="icon icon02"></i>任务管理</span>

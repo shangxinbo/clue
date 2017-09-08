@@ -6,7 +6,7 @@
             </div>
             <div class="data-warp">
                 <div class="data-table">
-                    <table cellspacing="0" cellpadding="0">
+                    <table v-if="headers.length>0" cellspacing="0" cellpadding="0">
                         <tbody>
                             <tr>
                                 <th v-for="item in headers">{{item}}</th>
@@ -16,6 +16,7 @@
                             </tr>
                         </tbody>
                     </table>
+                    <p class="no-data" v-else>暂无数据</p>
                 </div>
                 <pages :total="totalPage" :current="currentPage" @jump='search'></pages>
             </div>
@@ -56,9 +57,15 @@
                     },
                     success: data => {
                         if (data.code == 200) {
-                            this.headers = data.data.header
-                            this.list = data.data.data
-                            this.totalPage = Math.ceil(data.data.total / 10)
+                            if (data.data && data.data.header) {
+                                this.headers = data.data.header
+                                this.list = data.data.data
+                                this.totalPage = Math.ceil(data.data.total / 10)
+                            } else {
+                                this.headers = []
+                                this.list = []
+                                this.totalPage = 1
+                            }
                         } else {
                             this.$toast(data.message)
                         }

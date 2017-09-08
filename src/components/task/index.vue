@@ -132,7 +132,7 @@
                     },
                     success: data => {
                         if (data.code == 200) {
-                            this.list = data.data.list
+                            this.list = data.data.list || []
                             this.totalPage = Math.ceil(data.data.page.total / 10)
                         } else {
                             this.$toast(data.message)

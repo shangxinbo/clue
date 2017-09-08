@@ -26,7 +26,7 @@
                     </div>
                 </div>
                 <div class="data-table">
-                    <table>
+                    <table v-if="sum.length>0">
                         <tbody>
                             <tr class="line">
                                 <td>分值</td>
@@ -40,6 +40,7 @@
                             </tr>
                         </tbody>
                     </table>
+                    <p class="no-data" v-else>暂无数据</p>
                 </div>
                 <div class="mode">
                     <ul>
@@ -72,7 +73,7 @@
                             <span>{{props.item.send_time}}</span>
                         </td>
                         <td width="10%" label="操作">
-                            <a href="javascript:void(0)">调整</a>
+                            <a href="javascript:void(0)" @click="change(props.item.id,proxy.item.product_name,propps.item.weights)">调整</a>
                         </td>
                     </template>
                 </mtable>
@@ -102,15 +103,15 @@
                 sum: [],
                 left: '',
                 total: '',
-                maxDate:now
+                maxDate: now
             }
         },
         watch: {
             $route(newVal, oldVal) {
+                this.date = ''
                 this.nav()
                 this.getList()
                 this.getSum()
-                this.date = ''
             }
         },
         filters: {
@@ -163,9 +164,17 @@
                     },
                     success: data => {
                         if (data.code == 200) {
-                            this.sum = JSON.parse(data.data.data_json)
-                            this.left = data.data.left
-                            this.total = data.data.data_count
+                            //console.log(data.data)
+                            if (data.data && data.data.data_json) {
+                                this.sum = JSON.parse(data.data.data_json)
+                                this.left = data.data.left
+                                this.total = data.data.data_count
+                            } else {
+                                this.sum = []
+                                this.left = 0
+                                this.total = 0
+                            }
+
                         } else {
                             this.$toast(data.message)
                         }
@@ -189,9 +198,12 @@
                     }
                 })
             },
-            selectByDate(val){
+            selectByDate(val) {
                 this.date = val
                 this.getSum()
+            },
+            change(id, name, weight) {
+                //TODO 
             },
             search(param) {
                 let query
