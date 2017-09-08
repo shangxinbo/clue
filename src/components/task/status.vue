@@ -93,7 +93,7 @@
                                     <td>{{item.num}}</td>
                                 </template>
                                 <td>
-                                    <router-link :to="{path:'/task/status/detail',query:{id:item.id,date:item.date,customer:item.client_name}}">查看</router-link>
+                                    <router-link :to="{path:'/task/status/detail',query:{id:item.id,date:item.date,customer:item.client_name,batch:item.batch}}">查看</router-link>
                                 </td>
                             </tr>
                         </tbody>

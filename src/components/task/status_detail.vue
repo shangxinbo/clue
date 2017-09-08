@@ -18,46 +18,19 @@
             </div>
             <div class="data-property">
                 <div class="data-table">
-                    <table>
+                    <table v-if="score.length>0">
                         <tbody>
                             <tr class="line">
                                 <th>评分等级</th>
-                                <th>0-0.1</th>
-                                <th>0.1-0.2</th>
-                                <th>0.2-0.3</th>
-                                <th>0.3-0.4</th>
-                                <th>0.4-0.5</th>
-                                <th>0.5-0.6</th>
-                                <th>0.6-0.7</th>
-                                <th>0.7-0.8</th>
-                                <th>0.8-0.9</th>
-                                <th>0.9-1.0</th>
+                                <th v-for="item in score">{{item.level}}</th>
                             </tr>
                             <tr class="line">
                                 <td>数量</td>
-                                <td>47749</td>
-                                <td>53103</td>
-                                <td>20277</td>
-                                <td>12502</td>
-                                <td>6556</td>
-                                <td>3554</td>
-                                <td>2420</td>
-                                <td>1751</td>
-                                <td>1361</td>
-                                <td>727</td>
+                                <td v-for="item in score">{{item.cnt}}</td>
                             </tr>
                             <tr>
                                 <td>点击/回复量</td>
-                                <td>142</td>
-                                <td>233</td>
-                                <td>121</td>
-                                <td>91</td>
-                                <td>56</td>
-                                <td>34</td>
-                                <td>29</td>
-                                <td>21</td>
-                                <td>14</td>
-                                <td>5</td>
+                                <td v-for="item in score">{{item.click||item.reply}}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -91,7 +64,7 @@
                             <span :title="props.item.content">{{props.item.content}}</span>
                         </td>
                         <td width="10%" label="URL">
-                            <span >{{props.item.url}}</span>
+                            <span>{{props.item.url}}</span>
                         </td>
                     </template>
                 </mtable>
@@ -111,6 +84,8 @@
                 date: '',
                 customer: '',
                 list: [],
+                score: [],
+                batch: '',
                 currentPage: 1,
                 totalPage: 1
             }
@@ -121,14 +96,29 @@
             }
         },
         created() {
+            this.customer = this.$route.query.customer ? this.$route.query.customer : ''
+            this.date = this.$route.query.date ? this.$route.query.date : ''
+            this.batch = this.$route.query.batch ? this.$route.query.batch : ''
+            this.id = this.$route.query.id
             this.init()
+            this.$ajax({
+                url: API.task_sub_status_score,
+                data: {
+                    batch: this.batch,
+                    date: this.date
+                },
+                success: data => {
+                    if (data.code == 200) {
+                        this.score = data.data.list
+                    } else {
+                        this.$toast(data.message)
+                    }
+                }
+            })
         },
         methods: {
             init() {
                 this.currentPage = this.$route.query.page ? this.$route.query.page : 1
-                this.customer = this.$route.query.customer ? this.$route.query.customer : ''
-                this.date = this.$route.query.date ? this.$route.query.date : ''
-                this.id = this.$route.query.id
                 this.$ajax({
                     url: API.task_status_detail,
                     data: {
