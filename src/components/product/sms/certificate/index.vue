@@ -128,6 +128,7 @@
                     url: API.sms_certificate_list,
                     data: {
                         costomer_name: this.customer,
+                        qualification_id: this.certificate,
                         page: this.currentPage,
                     },
                     success: (data) => {
