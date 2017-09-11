@@ -1,7 +1,7 @@
 <template>
     <div class="input-warp">
         <div class="select-warp" :class="[{'select-open':show}, addClass]">
-            <p class="all" @click.stop="showSelect">
+            <p class="all" @click.stop="showSelect($event)">
                 <span>{{selected.name}}</span>
             </p>
             <div class="select-ul">
@@ -49,7 +49,7 @@
             })
         },
         methods: {
-            showSelect() {
+            showSelect(event) {
                 event.stopPropagation()
                 event.preventDefault()
                 if (this.disabled) return false
