@@ -291,7 +291,8 @@
                         return false
                     }
                 }
-                if (this.providers.length <= 0) {
+                console.log(this.selected_providers)
+                if (this.selected_providers.length <= 0) {
                     this.providers_error = '请选择运营商'
                     return false
                 }
