@@ -220,7 +220,6 @@
                 }
             },
             addSelectCitys(province, city) {
-                console.log(this.selected_citys)
                 if (this.selected_citys.hasOwnProperty(province)) {
                     if (this.selected_citys[province].length > 0) {
                         if (city.id) {
@@ -294,7 +293,6 @@
                         return false
                     }
                 }
-                console.log(this.selected_providers)
                 if (this.selected_providers.length <= 0) {
                     this.providers_error = '请选择运营商'
                     return false
@@ -346,6 +344,7 @@
                 let sendTime = ''
                 if (this.dateType == 2) {
                     let tag = false
+                    console.log(this.dateWeek)
                     this.dateWeek.forEach((item, index) => {
                         if (item.checked) tag = true
                     })
@@ -354,7 +353,7 @@
                         return false
                     }
                     sendTime = []
-                    this.dateWeek.forEeach((item, index) => {
+                    this.dateWeek.forEach((item, index) => {
                         if (item.checked) {
                             sendTime.push(item.id)
                         }
