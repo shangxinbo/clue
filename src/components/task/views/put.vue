@@ -169,6 +169,9 @@
                 success: data => {
                     if (data.code == 200) {
                         this.providers = data.data
+                        this.providers.forEach((item,index)=>{
+                            this.selected_providers.push(item.code)
+                        })
                     } else {
                         this.$toast(data.message)
                     }
