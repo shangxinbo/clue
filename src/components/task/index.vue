@@ -145,9 +145,10 @@
                 if (!isNaN(param)) {
                     query = Object.assign({}, this.$route.query, { page: param })
                 } else {
-                    query = Object.assign({}, {
+                    query = Object.assign({},this.$route.query, {
                         customer: this.customer,
-                        product: this.$refs.productSelect.selected.id
+                        product: this.$refs.productSelect.selected.id,
+                        page:1
                     })
                 }
                 this.$router.replace({
