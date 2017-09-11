@@ -40,31 +40,31 @@
             <div class="data-warp">
                 <mtable :list="list">
                     <template scope="props">
-                        <td width="10%" label="子批次号">
+                        <td width="20%" label="子批次号">
                             <span>{{props.item.betch_no}}</span>
                         </td>
-                        <td width="10%" label="发送量">
+                        <td width="9%" label="发送量">
                             <span>{{props.item.send_num}}</span>
                         </td>
-                        <td width="10%" label="到达量">
+                        <td width="9%" label="到达量">
                             <span>{{props.item.success_num}}</span>
                         </td>
-                        <td width="10%" label="点击量">
+                        <td width="7%" label="点击量">
                             <span>{{props.item.click_num}}</span>
                         </td>
-                        <td width="10%" label="回复量">
+                        <td width="7%" label="回复量">
                             <span>{{props.item.replay_num}}</span>
                         </td>
-                        <td width="10%" label="到达率">
+                        <td width="7%" label="到达率">
                             <span>{{props.item.success_percentage}}%</span>
                         </td>
-                        <td width="10%" label="点击率">
+                        <td width="7%" label="点击率">
                             <span>{{props.item.click_percentage}}%</span>
                         </td>
-                        <td width="10%" label="文案">
+                        <td width="15%" label="文案">
                             <span :title="props.item.content">{{props.item.content}}</span>
                         </td>
-                        <td width="10%" label="URL">
+                        <td width="20%" label="URL" style="word-wrap: break-word;max-width:1px">
                             <span>{{props.item.url}}</span>
                         </td>
                     </template>
