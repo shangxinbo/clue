@@ -56,7 +56,7 @@
                                 <th>日期</th>
                                 <th>客户</th>
                                 <th>批次号</th>
-                                <template v-if="navId==1">
+                                <template v-if="navId==2">
                                     <th>发送量</th>
                                     <th>到达量</th>
                                     <th>点击量</th>
@@ -64,11 +64,11 @@
                                     <th>到达率</th>
                                     <th>点击率</th>
                                 </template>
-                                <template v-if="navId==2">
+                                <template v-if="navId==3||navId==4">
                                     <th>项目</th>
                                     <th>数据量</th>
                                 </template>
-                                <template v-if="navId==3">
+                                <template v-if="navId==1">
                                     <th>数据量</th>
                                 </template>
                                 <th>操作</th>
@@ -77,7 +77,7 @@
                                 <td>{{item.date}}</td>
                                 <td>{{item.client_name}}</td>
                                 <td>{{item.batch}}</td>
-                                <template v-if="navId==1">
+                                <template v-if="navId==2">
                                     <td>{{item.send_num}}</td>
                                     <td>{{item.success_num}}</td>
                                     <td>{{item.click_num}}</td>
@@ -85,11 +85,11 @@
                                     <td>{{item.click_percentage}}%</td>
                                     <td>{{item.success_percentage}}%</td>
                                 </template>
-                                <template v-if="navId==2">
+                                <template v-if="navId==3||navId==4">
                                     <td>{{item.project_name}}</td>
                                     <td>{{item.num}}</td>
                                 </template>
-                                <template v-if="navId==3">
+                                <template v-if="navId==1">
                                     <td>{{item.num}}</td>
                                 </template>
                                 <td>

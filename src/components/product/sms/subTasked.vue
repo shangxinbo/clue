@@ -77,7 +77,7 @@
                 })
             },
             checkNum() {
-                if (isNaN(this.num)) {
+                if (isNaN(this.num)||this.num<0) {
                     this.num = 0
                 } else {
                     this.num = parseInt(this.num)
