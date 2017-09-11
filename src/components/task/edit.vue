@@ -143,7 +143,7 @@
                     data: {
                         task_id: this.id,
                         data_num: this.count,
-                        send_type: this.dateType,
+                        send_type: parseInt(this.dateType)-1,
                         send_time: sendTime
                     },
                     success: data => {
