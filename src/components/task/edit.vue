@@ -125,7 +125,7 @@
                         return false
                     }
                     sendTime = []
-                    this.dateWeek.forEeach((item, index) => {
+                    this.dateWeek.forEach((item, index) => {
                         if (item.checked) {
                             sendTime.push(item.id)
                         }
