@@ -52,7 +52,7 @@
                             </li>
                             <li class="li-btn">
                                 <div class="input-warp">
-                                    <button class="btn confirm" type="button" @click="submit">提交</button>
+                                    <button class="btn confirm" type="button" @click="submit">{{repeatSubmit?'创建中。。。':'提交'}}</button>
                                 </div>
                             </li>
                         </ul>
