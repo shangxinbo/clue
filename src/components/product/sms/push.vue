@@ -149,6 +149,7 @@
                 let task = this.$refs.subTask
                 let tasked = this.$refs.subTasked
                 let arr = []
+                let sumNum = 0
                 let canSubmit = true
                 if (tasked) {
                     tasked.forEach((item, index) => {
@@ -161,6 +162,7 @@
                                 percent: parseInt(item.num),
                                 style: item.track
                             })
+                            sumNum += parseInt(item.num)
                         } else {
                             canSubmit = false
                         }
@@ -177,10 +179,17 @@
                                 percent: parseInt(item.num),
                                 style: item.track
                             })
+                            sumNum += parseInt(item.num)
                         } else {
                             canSubmit = false
                         }
                     })
+                }
+
+
+                if (sumNum != 100) {
+                    this.$toast('数据量占比之和不等于100%')
+                    return false
                 }
 
                 if (canSubmit) {
