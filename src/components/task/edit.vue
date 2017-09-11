@@ -141,7 +141,7 @@
                 this.$ajax({
                     url: API.task_edit,
                     data: {
-                        id: this.id,
+                        task_id: this.id,
                         data_num: this.count,
                         send_type: this.dateType,
                         send_time: sendTime
