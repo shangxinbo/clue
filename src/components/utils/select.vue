@@ -1,7 +1,7 @@
 <template>
     <div class="input-warp">
         <div class="select-warp" :class="[{'select-open':show}, addClass]">
-            <p class="all" @click.stop="showSelect($event)">
+            <p class="all" @click="showSelect($event)">
                 <span>{{selected.name}}</span>
             </p>
             <div class="select-ul">
@@ -33,7 +33,7 @@
             name(newVal, oldVal) {
                 this.choose('', newVal)
             },
-            initlist(newVal,oldVal){
+            initlist(newVal, oldVal) {
                 this.init()
             }
         },
@@ -52,6 +52,11 @@
             showSelect(event) {
                 event.stopPropagation()
                 event.preventDefault()
+                // 关掉其他的select
+                let allSelect = document.querySelectorAll('.select-open')
+                allSelect.forEach(item=>{
+                    item.className = item.className.replace('select-open','')
+                })
                 if (this.disabled) return false
                 if (this.show) {
                     this.show = false

@@ -241,7 +241,6 @@
                         Vue.set(this.selected_citys, province, [])
                     }
                 }
-
             },
             addUnSelectCitys(province, city) {
                 if (this.unselected_citys.hasOwnProperty(province)) {
