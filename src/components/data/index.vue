@@ -188,7 +188,8 @@
                 this.$ajax({
                     url: API.model_data_list,
                     data: {
-                        id: this.navId
+                        id: this.navId,
+                        page:this.currentPage
                     },
                     success: data => {
                         if (data.code == 200) {
