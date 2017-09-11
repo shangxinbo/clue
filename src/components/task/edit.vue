@@ -160,16 +160,41 @@
             }
         },
         created() {
-            this.$on('show', function (id, customer, project, count) {
+            this.$on('show', function (id, customer, project, count, type, date) {
                 this.style = 'block'
                 this.id = id
                 this.customer = customer
                 this.project = project
                 this.count = count
                 this.$store.commit('SHOW_LAYER')
-                let selected = this.datepicker.getSelected()
-                this.datepicker.removeSelected(selected)
-                this.datepicker.draw()
+                this.dateWeek.forEach(item => {
+                    item.checked = false
+                })
+                if (type == '具体日期') {
+                    let selected = this.datepicker.getSelected()
+                    this.datepicker.removeSelected(selected)
+                    this.datepicker.setSelected(date)
+                    this.datepicker.draw()
+                    this.dateType = 3
+                } else {
+                    if (type == '固定日期') {
+                        let arr = date.split(',')
+                        arr.forEach((item, index) => {
+                            this.dateWeek.forEach(day => {
+                                if (day.name == item.replace('星期', '周').trim()) {
+                                    day.checked = true
+                                }
+                            })
+                        })
+                        this.dateType = 2
+                    } else {
+                        this.dateType = 1
+                    }
+                    let selected = this.datepicker.getSelected()
+                    this.datepicker.removeSelected(selected)
+                    this.datepicker.draw()
+                }
+
             })
         }
     }

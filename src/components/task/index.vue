@@ -53,7 +53,7 @@
                             <span class="yellow">{{props.item.data_num|formatNum}}</span>
                         </td>
                         <td width="10%" label="操作">
-                            <a href="javascript:void(0);" @click="edit(props.item.id,props.item.client_name,props.item.project_name,props.item.data_num)">编辑</a>
+                            <a href="javascript:void(0);" @click="edit(props.item.id,props.item.client_name,props.item.project_name,props.item.data_num,props.item.send_date,props.item.send_date_desc)">编辑</a>
                             <a href="javascript:void(0)" @click="changeStatus(props.item.id,props.item.status)">{{props.item.status?'停止':'开始'}}</a>
                         </td>
                     </template>
@@ -174,8 +174,8 @@
                     })
                 })
             },
-            edit(id, customer, project, count) {
-                this.$refs.editDialog.$emit('show', id, customer, project, count)
+            edit(id, customer, project, count,dateType,date) {
+                this.$refs.editDialog.$emit('show', id, customer, project, count,dateType,date)
             }
         },
         components: {
