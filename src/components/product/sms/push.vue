@@ -110,7 +110,7 @@
                         this.client = data.data.data_task.costomer_name
                         this.pushTime = data.data.data_task.send_date
                         this.subtasked = data.data.sms_subTask
-                        this.type = data.data.sms_task.status == 1 ? 0 : 1
+                        this.type = data.data.sms_task.status == 1 ? 1 : 0
                         this.sms_task_id = data.data.sms_task.id
                         if (this.subtasked && this.subtasked.length > 0) {
                             this.task_type = data.data.data_task.type
