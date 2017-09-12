@@ -25,7 +25,7 @@
                     <subTasked ref="subTasked" v-for="(item,key) in subtasked" :key="item.index" :index="key" :data="item" :templateList="templateList"></subTasked>
                     <subTask ref="subTask" v-for="(item,key) in task" :key="item.index" :index="subtasked.length + key" :templateList="templateList"
                         @del="delSub(item.index)"></subTask>
-                    <div class="task-push">
+                    <div class="task-push" v-if="!task_type">
                         <div class="add-model">
                             <a href="javascript:void(0)" class="btn add" @click="addSubTask">
                                 <span>
@@ -35,7 +35,7 @@
                     </div>
                     <div class="task-push">
                         <ul class="data-text">
-                            <li class="li-date">
+                            <li class="li-date" v-if="!task_type">
                                 <label class="name">发送时间</label>
                                 <div class="input-warp">
                                     <label class="radio-warp" :class="{'radio-active':type==0}" for="sendDay" @click="type=0">
@@ -54,7 +54,7 @@
                                     </label>
                                 </div>
                             </li>
-                            <li class="li-btn">
+                            <li class="li-btn" v-if="!task_type">
                                 <div class="input-warp">
                                     <button class="btn confirm" type="button" @click="submit">提交</button>
                                 </div>
@@ -92,7 +92,8 @@
                 templateList: [],
                 timeList: timeList,
                 type: 0,
-                sms_task_id: ''
+                sms_task_id: '',
+                task_type: 0
             }
         },
         created() {
@@ -111,6 +112,9 @@
                         this.subtasked = data.data.sms_subTask
                         this.type = data.data.sms_task.status == 1 ? 0 : 1
                         this.sms_task_id = data.data.sms_task.id
+                        if (this.subtasked && this.subtasked.length > 0) {
+                            this.task_type = data.data.data_task.type
+                        }
                         if (!data.data.sms_subTask.length) {
                             this.task.push({ index: '0' })
                         }
