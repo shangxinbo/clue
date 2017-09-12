@@ -27,7 +27,7 @@
                         @del="delSub(item.index)"></subTask>
                     <div class="task-push">
                         <div class="add-model">
-                            <a href="javasript:void(0)" class="btn add" @click="addSubTask">
+                            <a href="javascript:void(0)" class="btn add" @click="addSubTask">
                                 <span>
                                     <i class="icon"></i>创建新任务</span>
                             </a>
