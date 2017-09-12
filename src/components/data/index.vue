@@ -54,22 +54,22 @@
             <div class="data-warp">
                 <mtable :list="list">
                     <template scope="props">
-                        <td width="10%" label="优先级">
+                        <td width="5%" label="优先级">
                             <span>{{props.item.weights}}</span>
                         </td>
-                        <td width="10%" label="产品">
+                        <td width="15%" label="产品">
                             <span>{{props.item.product_name}}</span>
                         </td>
-                        <td width="10%" label="客户">
+                        <td width="15%" label="客户">
                             <span>{{props.item.client_name}}</span>
                         </td>
-                        <td width="10%" label="项目">
+                        <td width="20%" label="项目">
                             <span>{{props.item.project_name}}</span>
                         </td>
                         <td width="10%" label="量">
                             <span class="yellow">{{props.item.data_num|formatNum}}</span>
                         </td>
-                        <td width="10%" label="投放日期">
+                        <td width="25%" label="投放日期" style="word-wrap: break-word;max-width:1px">
                             <span>{{props.item.send_time}}</span>
                         </td>
                         <td width="10%" label="操作">

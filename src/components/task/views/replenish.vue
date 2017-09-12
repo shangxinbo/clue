@@ -5,7 +5,7 @@
                 <label class="name">上传文件</label>
                 <div class="input-warp upload-warp">
                     <input class="text" type="text" v-model="filePath" readonly>
-                    <button class="btn" type="button">
+                    <a class="btn" style="min-width:0px;">
                         <span>
                             <i class="icon upload"></i>上传</span>
                         <input type="file" style="
@@ -17,8 +17,8 @@
                             top: 0;
                             left: 0;
                             z-index: 1;
-                        " multiple="false" accept=".txt" @change="selectFile($event)" />
-                    </button>
+                        " accept=".txt" @change="selectFile($event)" />
+                    </a>
                     <p v-if="file_error" class="tips error">{{file_error}}</p>
                 </div>
             </li>
