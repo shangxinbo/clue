@@ -70,6 +70,7 @@
     import mtable from 'components/utils/table'
     import pages from 'components/common/pages'
     import editDialog from './edit'
+    import moment from 'moment'
     export default {
         data() {
             return {
@@ -175,6 +176,12 @@
                 })
             },
             edit(id, customer, project, count,dateType,date) {
+                // 20170903 to 2017-09-03
+                date = date.split(',')
+                let time = date.map(item=>{
+                    return moment(item,'YYYYMMDD').format('YYYY-MM-DD')
+                })
+                date = time.join(',')
                 this.$refs.editDialog.$emit('show', id, customer, project, count,dateType,date)
             }
         },
