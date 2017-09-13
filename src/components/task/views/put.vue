@@ -198,7 +198,7 @@
             },
             linkProject(selected) {
                 this.projectParam.client_id = selected.id
-                this.projectParam.product_id = 2
+                this.projectParam.product_id = this.$refs.productSelect.selected.id
                 this.$refs.projectSelect.init()
             },
             inSelect(id) {
