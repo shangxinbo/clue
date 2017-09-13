@@ -146,10 +146,10 @@
                 if (!isNaN(param)) {
                     query = Object.assign({}, this.$route.query, { page: param })
                 } else {
-                    query = Object.assign({},this.$route.query, {
+                    query = Object.assign({}, this.$route.query, {
                         customer: this.customer,
                         product: this.$refs.productSelect.selected.id,
-                        page:1
+                        page: 1
                     })
                 }
                 this.$router.replace({
@@ -175,14 +175,18 @@
                     })
                 })
             },
-            edit(id, customer, project, count,dateType,date) {
+            edit(id, customer, project, count, dateType, date) {
                 // 20170903 to 2017-09-03
-                date = date.split(',')
-                let time = date.map(item=>{
-                    return moment(item,'YYYYMMDD').format('YYYY-MM-DD')
-                })
-                date = time.join(',')
-                this.$refs.editDialog.$emit('show', id, customer, project, count,dateType,date)
+                console.log(dateType)
+                if (dateType == '具体日期') {
+                    date = date.split(',')
+                    let time = date.map(item => {
+                        return moment(item, 'YYYYMMDD').format('YYYY-MM-DD')
+                    })
+                    date = time.join(',')
+                }
+
+                this.$refs.editDialog.$emit('show', id, customer, project, count, dateType, date)
             }
         },
         components: {
