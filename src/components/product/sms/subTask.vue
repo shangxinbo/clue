@@ -9,7 +9,7 @@
             </li>
             <li>
                 <label class="name">短信渠道</label>
-                <mselect ref="tunnelSelect" :api="tunnelApi" :hideAll="true" @change="changeTunnel"></mselect>
+                <mselect ref="tunnelSelect" :api="tunnelApi" :hideAll="true" :param="tunnelParam" @change="changeTunnel"></mselect>
             </li>
             <li>
                 <label class="name">数据量占比</label>
@@ -50,7 +50,10 @@
         props: ['templateList', 'index'],
         data() {
             return {
-                tunnelApi: API.tunnel_select_list,
+                tunnelApi: API.tunnel_select_by_template,
+                tunnelParam: {
+                    template_id: ''
+                },
                 content: '',
                 selected: '',
                 tunnel: '',
@@ -69,6 +72,8 @@
         methods: {
             changeSelected(selected) {
                 this.selected = selected
+                this.tunnelParam.template_id = this.selected.id
+                this.$refs.tunnelSelect && this.$refs.tunnelSelect.init()
             },
             changeTunnel(selected) {
                 this.tunnel = selected
@@ -83,7 +88,7 @@
                 }
             },
             checkNum() {
-                if (isNaN(this.num)||this.num<0) {
+                if (isNaN(this.num) || this.num < 0) {
                     this.num = 0
                 } else {
                     this.num = parseInt(this.num)

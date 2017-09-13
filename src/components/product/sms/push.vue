@@ -38,7 +38,7 @@
                             <li class="li-date" v-if="!task_type">
                                 <label class="name">发送时间</label>
                                 <div class="input-warp">
-                                    <label class="radio-warp" :class="{'radio-active':type==0}" for="sendDay" @click="type=0">
+                                    <label class="radio-warp" :class="{'radio-active':type==2}" for="sendDay" @click="type=2">
                                         <input type="radio" name="sendDay" class="radio">
                                         <i class="icon"></i>
                                         <span class="radioname">立即发送</span>
@@ -91,7 +91,7 @@
                 taskNum: 0,
                 templateList: [],
                 timeList: timeList,
-                type: 0,
+                type: 2,
                 sms_task_id: '',
                 task_type: 0
             }
@@ -110,7 +110,7 @@
                         this.client = data.data.data_task.costomer_name
                         this.pushTime = data.data.data_task.send_date
                         this.subtasked = data.data.sms_subTask
-                        this.type = data.data.sms_task.status == 1 ? 1 : 0
+                        this.type = data.data.sms_task.status || 2
                         this.sms_task_id = data.data.sms_task.id
                         if (this.subtasked && this.subtasked.length > 0) {
                             this.task_type = data.data.data_task.type
@@ -201,7 +201,7 @@
                         url: API.task_save,
                         data: {
                             task_id: this.id,
-                            status: this.type ? 2 : 1,
+                            status: this.type,
                             time: this.$refs.timeSelect.selected.id,
                             sms_task_id: this.sms_task_id,
                             task: arr

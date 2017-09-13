@@ -5,6 +5,7 @@ export default {
     sms_template_del: API_PRE + '/sms/template_delete',
     customer_select_list: API_PRE + '/sms/client_select',
     tunnel_select_list: API_PRE + '/sms/get_channel_list',
+    tunnel_select_by_template:API_PRE + '/sms/get_channels',
     sign_select_list: API_PRE + '/sms/get_sign_list',
     sms_template_detail: API_PRE + '/sms/template_find',
     sms_template_save: API_PRE + '/sms/template_save',
