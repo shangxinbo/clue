@@ -83,7 +83,7 @@
                     { id: 4, name: '周四', checked: false },
                     { id: 5, name: '周五', checked: false },
                     { id: 6, name: '周六', checked: false },
-                    { id: 7, name: '周日', checked: false }
+                    { id: 0, name: '周日', checked: false }
                 ],
                 date_error: ''
             }
