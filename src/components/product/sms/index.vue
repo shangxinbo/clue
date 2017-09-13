@@ -43,7 +43,7 @@
                             <span :class="{yellow:props.item.today_status==2}">{{props.item.today_status_desc}}</span>
                         </td>
                         <td width="10%" label="操作">
-                            <router-link :to="{path:'/product/sms/push/',query:{id:props.item.task_id,dataNum:props.item.send_num}}">{{props.item.today_status==2?'重新推送':'推送'}}</router-link>
+                            <router-link :to="{path:'/product/sms/push/',query:{id:props.item.task_id}}">{{props.item.today_status==2?'重新推送':'推送'}}</router-link>
                         </td>
                     </template>
                 </mtable>

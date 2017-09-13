@@ -97,7 +97,6 @@
             }
         },
         created() {
-            this.dataNum = this.$route.query.dataNum
             this.id = this.$route.query.id
 
             this.$ajax({
@@ -112,7 +111,8 @@
                         this.subtasked = data.data.sms_subTask
                         this.type = data.data.sms_task.status || 2
                         this.sms_task_id = data.data.sms_task.id
-                        if (this.subtasked && this.subtasked.length > 0) {
+                        this.dataNum = data.data.data_task.data_num
+                        if (data.data.sms_task.is_send) {
                             this.task_type = data.data.data_task.type
                         }
                         if (!data.data.sms_subTask.length) {

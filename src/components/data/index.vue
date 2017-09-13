@@ -30,7 +30,7 @@
                         <tbody>
                             <tr class="line">
                                 <td>分值</td>
-                                <td v-for="item in sum">{{item.weight}}</td>
+                                <td v-for="item in sum">{{item.score}}</td>
                                 <td>总量</td>
                             </tr>
                             <tr>
