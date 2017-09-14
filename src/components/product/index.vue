@@ -18,17 +18,17 @@
                         <td width="10%" label="客户">
                             <span>{{props.item.client_name}}</span>
                         </td>
-                        <td v-if="navId==2" width="10%" label="项目">
+                        <td v-if="navId==3||navId==4" width="10%" label="项目">
                             <span>{{props.item.project_name}}</span>
                         </td>
                         <td width="10%" label="数据获取时间">
                             <span>{{props.item.date}}</span>
                         </td>
                         <td width="20%" label="需求量">
-                            <span>{{props.item.single}}</span>
+                            <span>{{props.item.use}}</span>
                         </td>
                         <td width="10%" label="去重后总量">
-                            <span class="yellow">{{props.item.use}}</span>
+                            <span class="yellow">{{props.item.single}}</span>
                         </td>
                     </template>
                 </mtable>
