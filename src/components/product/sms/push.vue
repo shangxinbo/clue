@@ -49,7 +49,7 @@
                                         <span class="radioname">定时发送</span>
                                         <div class="date-warp">
                                             <span class="date">{{pushTime}}</span>
-                                            <mselect ref="timeSelect" :initlist="timeList" :hideAll="true" @click.stop></mselect>
+                                            <mselect ref="timeSelect" :initlist="timeList" :id="time" :hideAll="true" @click.stop></mselect>
                                         </div>
                                     </label>
                                 </div>
@@ -91,6 +91,7 @@
                 taskNum: 0,
                 templateList: [],
                 timeList: timeList,
+                time:8,
                 type: 2,
                 sms_task_id: '',
                 task_type: 0
@@ -109,9 +110,12 @@
                         this.client = data.data.data_task.costomer_name
                         this.pushTime = data.data.data_task.send_date
                         this.subtasked = data.data.sms_subTask
-                        this.type = data.data.sms_task.status || 2
                         this.sms_task_id = data.data.sms_task.id
                         this.dataNum = data.data.data_task.data_num
+                        this.type = data.data.sms_task.status || 2
+                        if(this.type==1){
+                            this.time = data.data.sms_task.time
+                        }
                         if (data.data.sms_task.is_send) {
                             this.task_type = data.data.data_task.type
                         }
