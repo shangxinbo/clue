@@ -82,8 +82,8 @@
                                     <td>{{item.success_num}}</td>
                                     <td>{{item.click_num}}</td>
                                     <td>{{item.replay_num}}</td>
-                                    <td>{{item.click_percentage}}%</td>
                                     <td>{{item.success_percentage}}%</td>
+                                    <td>{{item.click_percentage}}%</td>
                                 </template>
                                 <template v-if="navId==3||navId==4">
                                     <td>{{item.project_name}}</td>
