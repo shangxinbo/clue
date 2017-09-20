@@ -124,6 +124,7 @@
                     url: API.task_status_detail,
                     data: {
                         page: this.currentPage,
+                        date: this.date,
                         nums: 10,
                         id: this.id
                     },
