@@ -30,7 +30,7 @@
                             </tr>
                             <tr>
                                 <td>点击/回复量</td>
-                                <td v-for="item in score">{{item.click||item.reply||0}}</td>
+                                <td v-for="item in score">{{item.click}}/{{item.reply}}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -106,7 +106,8 @@
                 url: API.task_sub_status_score,
                 data: {
                     batch: this.batch,
-                    date: this.date
+                    date: this.date,
+                    id:this.id
                 },
                 success: data => {
                     if (data.code == 200) {
@@ -130,7 +131,7 @@
                     },
                     success: data => {
                         if (data.code == 200) {
-                            this.list = data.data.list
+                            this.list = data.data.list || []
                             this.totalPage = Math.ceil(data.data.page.total / 10)
                         } else {
                             this.$toast(data.message)
